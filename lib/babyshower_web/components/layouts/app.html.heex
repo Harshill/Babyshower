@@ -1,0 +1,101 @@
+<div class="sky-background">
+  <div class="cloud tiny" style="top: 3%; animation-duration: 15s; animation-delay: 1s;"></div>
+  <div class="cloud large" style="top: 18%; animation-duration: 30s; animation-delay: 0s;"></div>
+  <div class="cloud small" style="top: 15%; animation-duration: 22s; animation-delay: 4s;"></div>
+  <div class="cloud" style="top: 12%; animation-duration: 25s; animation-delay: 2s;"></div>
+  <div class="cloud tiny" style="top: 25%; animation-duration: 18s; animation-delay: 6s;"></div>
+  <div class="cloud large" style="top: 20%; animation-duration: 28s; animation-delay: 3s;"></div>
+  <div class="cloud small" style="top: 32%; animation-duration: 20s; animation-delay: 5s;"></div>
+  <div class="cloud" style="top: 28%; animation-duration: 24s; animation-delay: 7s;"></div>
+  <div class="cloud tiny" style="top: 22%; animation-duration: 16s; animation-delay: 8s;"></div>
+  <div class="cloud large" style="top: 35%; animation-duration: 32s; animation-delay: 2s;"></div>
+  <div class="cloud small" style="top: 40%; animation-duration: 19s; animation-delay: 4s;"></div>
+  <div class="cloud" style="top: 45%; animation-duration: 26s; animation-delay: 6s;"></div>
+  <div class="cloud small" style="top: 5%; animation-duration: 20s; animation-delay: 0s;"></div>
+  <div class="cloud" style="top: 16%; animation-duration: 26s; animation-delay: 5s;"></div>
+  <div class="cloud small" style="top: 20%; animation-duration: 22s; animation-delay: 9s;"></div>
+  <div class="cloud" style="top: 12%; animation-duration: 28s; animation-delay: 12s;"></div>
+  <div class="cloud small" style="top: 30%; animation-duration: 18s; animation-delay: 2s;"></div>
+  <div class="cloud" style="top: 18%; animation-duration: 23s; animation-delay: 4s;"></div>
+  <div class="cloud small" style="top: 35%; animation-duration: 19s; animation-delay: 8s;"></div>
+  <div class="cloud" style="top: 28%; animation-duration: 26s; animation-delay: 5s;"></div>
+  <div class="cloud small" style="top: 22%; animation-duration: 21s; animation-delay: 11s;"></div>
+
+  <%= if assigns[:app_layout] do %>
+    <div class="stork">
+      <div class="stork-tail"></div>
+      <div class="stork-frontlegs"></div>
+      <div class="stork-backlegs"></div>
+      <div class="stork-body"></div>
+      <div class="stork-neck"></div>
+      <div class="stork-head"></div>
+      <div class="stork-eye"></div>
+      <div class="stork-beak"></div>
+      <div class="stork-wing"></div>
+      <div class="stork-wing-back"></div>
+      <div class="bundle-string"></div>
+      <div class="stork-bundle"></div>
+      <div class="stork-ribbon"></div>
+    </div>
+
+    <div class="stork-right">
+      <div class="stork-tail"></div>
+      <div class="stork-frontlegs"></div>
+      <div class="stork-backlegs"></div>
+      <div class="stork-body"></div>
+      <div class="stork-neck"></div>
+      <div class="stork-head"></div>
+      <div class="stork-eye"></div>
+      <div class="stork-beak"></div>
+      <div class="stork-wing"></div>
+      <div class="stork-wing-back"></div>
+      <div class="bundle-string"></div>
+      <div class="stork-bundle"></div>
+    </div>
+  <% end %>
+
+  <main class="px-4 py-8 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-3xl">
+      <.flash_group flash={@flash} />
+      <div :if={assigns[:app_layout]} class="space-y-12">
+        <div class="text-center space-y-">
+          <h1 class="text-5xl cartoon-title"> 
+            Oh Baby !
+          </h1>
+          <div class="cartoon-card">
+            <img class="w-full h-[400px] object-cover rounded-[2rem] border-8 border-white" src={~p"/images/romantic.jpg"}/>
+          </div>
+        </div>
+
+        <div class="cartoon-card text-center space-y-4 py-8">
+          <p class="text-2xl cartoon-text">Join us for a baby shower honoring parents to be</p>
+          <p class="text-3xl">
+            <span class="name-eshangi">Eshangi</span> & <span class="name-harshil">Harshil</span>
+          </p>
+          <p class="text-xl cartoon-text">We are excited to share this special moment with you</p>
+        
+        </div>
+
+        <div class="cartoon-info-card flex flex-col md:flex-row items-center justify-center gap-2 p-2">
+          <div class="cartoon-detail2">
+            <.icon name="hero-calendar" class="h-8 w-8 text-[#ee57d2]"/>
+            <span>{@event_date}</span>
+          </div>
+          <div class="cartoon-detail2">
+            <.icon name="hero-clock" class="h-8 w-8 text-[#ee57d2]"/>
+            <span>{@event_time}</span>
+          </div>
+          <div class="cartoon-detail2">
+            <.icon name="hero-map-pin" class="h-8 w-8 text-[#ee57d2]"/>
+            <span>{@event_location}</span>
+          </div>
+          </div>
+       <div class="cartoon-info-card flex flex-col md:flex-row items-center justify-center gap-2 p-2">
+            <p>Baby Registry at <a href="https://www.amazon.com/baby-reg/eshangi-harshil-march-2025-concord/1Q2Z3Y4W5X6C" target="_blank" class="text-[blue]">Amazon</a>
+            </p> 
+        </div>
+      </div>
+      {@inner_content}
+    </div>
+  </main>
+</div>

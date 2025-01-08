@@ -1,0 +1,10 @@
+alias Babyshower.Repo
+alias Babyshower.Guestlist
+alias Babyshower.Invitation.Guest
+alias Babyshower.Invitation.Phonenumber
+alias Babyshower.Invitation.Response
+alias Babyshower.EventInfo
+alias Babyshower.Response.GuestResponse
+alias Babyshower.Accounts.User
+alias Babyshower.Accounts
+alias Babyshower.ResponseStats
