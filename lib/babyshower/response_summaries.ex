@@ -34,13 +34,20 @@ defmodule Babyshower.ResponseStats do
   end
 
   def get_guest_guesses(%Guest{response: response}) do
-    response.gender_guesses
+    gender_guessses = case response do
+      nil -> nil
+      _ -> response.gender_guesses
+    end
+    gender_guessses
   end
 
   def get_family_guess(guest) do
     guest_guesses = get_guest_guesses(guest)
     # Get a guess if the first_name is "family"
-    Enum.find(guest_guesses, fn guess -> guess.first_name == "family" end)
+    case guest_guesses do
+      nil -> nil
+      _ -> Enum.find(guest_guesses, fn guess -> guess.first_name == "family" end)
+    end
   end
 
   # def count_guests_who_responded_yes() do

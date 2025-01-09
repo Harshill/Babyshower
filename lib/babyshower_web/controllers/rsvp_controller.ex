@@ -19,7 +19,7 @@ defmodule BabyshowerWeb.ShowRsvpController do
       _ -> nil
     end
 
-    IO.inspect(family_guess)
+    IO.inspect(guest)
 
     event_date = EventInfo.event_date()
     event_time = EventInfo.event_time()
