@@ -19,6 +19,10 @@ defmodule Babyshower.Application do
       {Finch, name: Babyshower.Finch},
       # Start a worker by calling: Babyshower.Worker.start_link(arg)
       # {Babyshower.Worker, arg},
+
+      # Start the maintence jobs
+      Babyshower.Utility.MaintainanceJobs,
+
       # Start to serve requests, typically the last entry
       BabyshowerWeb.Endpoint
     ]
