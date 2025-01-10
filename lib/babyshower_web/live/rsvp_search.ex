@@ -61,7 +61,7 @@ defmodule BabyshowerWeb.RsvpSearch do
                 <.input
                   field={@form[:phone_number]}
                   type="tel"
-                  placeholder="(555) 555-5555"
+                  placeholder="321-555-1234"
                   phx-hook="FormatPhoneNumberOnInput"
                   class="cartoon-detail w-full text-sm py-1 px-2"
                   phx-debounce="500"

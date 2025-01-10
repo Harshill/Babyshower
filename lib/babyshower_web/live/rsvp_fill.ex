@@ -24,6 +24,7 @@ defmodule BabyshowerWeb.RsvpFill do
     |> assign(form: form)
     |> assign(app_layout: false)
     |> assign(response: response)
+    |> assign(n_members_error: nil)
 
     |> ok()
   end
@@ -36,7 +37,7 @@ defmodule BabyshowerWeb.RsvpFill do
           <div class="p-4"> <!-- Added inner padding container -->
             <.link
               navigate={~p"/"}
-              class="inline-flex items-center px-3 py-1.5 text-xs rounded-lg bg-white border-2 border-[#FF69B4] text-[#FF69B4] hover:bg-pink-50 transition-all duration-200 cartoon-text"
+              class="inline-flex items-center px-3 py-1.5 text-xs rounded-lg bg-white border-2 border-[#FF69B4]/50 text-[#FF69B4] hover:bg-pink-50 transition-all duration-200 cartoon-text"
             >
               <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
@@ -51,8 +52,8 @@ defmodule BabyshowerWeb.RsvpFill do
             <div class="mt-8 space-y-6">
               <div class="cartoon-info-card p-6 bg-[#FFE6F4]">
                 <.render_accept_form anyone_accepted={@response.invite_accepted}/>
-                <.render_n_members_form anyone_accepted={@response.invite_accepted} n_members_accepted={@response.n_members_accepted}/>
-                <.render_gender_vote_form anyone_accepted={@response.invite_accepted} n_members_accepted={@response.n_members_accepted} gender_vote={@response.gender_vote}/>
+                <.render_n_members_form anyone_accepted={@response.invite_accepted} n_members_accepted={@response.n_members_accepted} n_members_error={@n_members_error}/>
+                <.render_gender_vote_form anyone_accepted={@response.invite_accepted} n_members_accepted={@response.n_members_accepted} gender_vote={@response.gender_vote} n_members_error={@n_members_error}/>
               </div>
               <.render_confirm_button
                 anyone_accepted={@response.invite_accepted}
@@ -137,6 +138,7 @@ defmodule BabyshowerWeb.RsvpFill do
 
   attr :anyone_accepted, :boolean
   attr :n_members_accepted, :integer
+  attr :n_members_error, :string
   def render_n_members_form(assigns) do
     show_condition = case assigns.anyone_accepted do
                       true -> true
@@ -152,7 +154,7 @@ defmodule BabyshowerWeb.RsvpFill do
         <form phx-change="update-members" class="space-y-4">
           <label for="n_members" class="cartoon-text text-xl mb-4">Number of Members Attending</label>
           <input
-            type="tel"
+            type="number"
             id="n_members"
             value={@n_members_accepted}
             name="n_members"
@@ -161,6 +163,7 @@ defmodule BabyshowerWeb.RsvpFill do
             class="mt-1 block w-24 mx-auto rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
             phx-debounce="500"
           >
+          <div :if={@n_members_error} class="text-red-500 text-sm"> {@n_members_error} </div>
         </form>
       </div>
       <div class="border-b border-gray-300 my-6"></div>
@@ -171,14 +174,18 @@ defmodule BabyshowerWeb.RsvpFill do
   attr :anyone_accepted, :boolean
   attr :n_members_accepted, :integer
   attr :gender_vote, Response
+  attr :n_members_error, :string
 
   def render_gender_vote_form(assigns) do
 
     show_condition = case assigns.anyone_accepted do
-                      true -> assigns.n_members_accepted != nil
+                      true -> (assigns.n_members_accepted != nil and assigns.n_members_error == nil)
                       false -> true
                       nil -> false
                       end
+
+    IO.inspect(show_condition)
+
     assigns = assigns |> assign(show_condition: show_condition)
 
     ~H"""
@@ -249,7 +256,6 @@ defmodule BabyshowerWeb.RsvpFill do
 
 
   def handle_event("responded_rsvp", %{"guest-response" => value}, socket) do
-    IO.inspect(value)
     set_response = case value do
       "yes" -> true
       "no" -> false
@@ -267,8 +273,19 @@ defmodule BabyshowerWeb.RsvpFill do
   end
 
   def handle_event("update-members", %{"n_members" => n_members}, socket) do
+    n_members = case n_members == "" do
+      true -> 0
+      false -> String.to_integer(n_members)
+    end
+
+    error = case n_members <= 0 do
+      true -> "Error: The number of guests must be greater than 0"
+      false -> nil
+    end
+
     socket
     |> assign(response: %{socket.assigns.response | n_members_accepted: n_members})
+    |> assign(n_members_error: error)
     |> noreply()
   end
 
@@ -277,7 +294,7 @@ defmodule BabyshowerWeb.RsvpFill do
     guest = socket.assigns.guest
 
     n_members_accepted = case response.invite_accepted do
-      true -> String.to_integer(response.n_members_accepted)
+      true -> response.n_members_accepted
       false ->  0
     end
 

@@ -96,7 +96,7 @@
 
                         <div :if={@guest.response.invite_accepted === true} class="mt-4 cartoon-text flex items-center justify-center gap-2"> 
                             Number of Guests:
-                            <span class={["text-xl", @guest.response.gender_guesses == "boy" && "name-eshangi",  @guest.response.gender_guesses == "girl" && "name-harshil"]}>
+                            <span class={["text-xl", @family_guess.gender_guess == "boy" && "name-eshangi",  @family_guess.gender_guess == "girl" && "name-harshil"]}>
                                 <%= @guest.response.n_members_accepted %>
                             </span>
                         </div>
