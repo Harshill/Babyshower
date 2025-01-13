@@ -18,6 +18,7 @@ defmodule BabyshowerWeb.RsvpFormState do
     end
   end
 
+  # TODO if someone votes for gender,
   def n_members_answered(state, n_members) do
     case check_n_members(n_members) do
       {:blank_error, error_message} -> %{state | show_n_members_error?: true, error_message: error_message, show_gender_q?: false}
