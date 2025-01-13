@@ -16,7 +16,7 @@ defmodule BabyshowerWeb.RsvpFill do
       invite_accepted: nil,
       n_members_accepted: nil,
       number_of_votes: 1,
-      gender_guesses: %{0 => %{"first_name" => nil, "gender_guess" => nil}}
+      gender_guesses: %{0 => %{"first_name" => "family", "gender_guess" => nil}, 1 => %{"first_name" => guest.first_name, "gender_guess" => nil}}
     }
 
     rsvp_form_state = %RsvpFormState{}
@@ -215,7 +215,7 @@ defmodule BabyshowerWeb.RsvpFill do
 
         <div :if={@family_vote == false}>
         <form :for={number <- 1..@response_data.number_of_votes}  class="flex flex-col sm:flex-row gap-4 justify-center mt-3">
-          <%= inspect(@response_data.gender_guesses) %>
+          <%= inspect(@response_data.gender_guesses[number]["first_name"]) %>
           <input
             type="text"
             id={"first_name-#{number}"}
@@ -224,6 +224,7 @@ defmodule BabyshowerWeb.RsvpFill do
             class="mt-1 block mx-auto rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
             phx-change="responded_name"
             phx-value-iter={number}
+            value={@response_data.gender_guesses[number]["first_name"]}
             />
 
           <.binary_input_component
@@ -287,18 +288,17 @@ defmodule BabyshowerWeb.RsvpFill do
     gender_guess = socket.assigns.response_data.gender_guesses[iter]
 
     gender_guess = case gender_guess do
-      nil -> %{first_name: nil, gender_guess: nil}
+      nil -> %{"first_name" => nil, "gender_guess" => nil}
       _ -> gender_guess
     end
 
-    IO.inspect(gender_guess)
     gender_guess = Map.put(gender_guess, "first_name", first_name)
 
     gender_guesses = socket.assigns.response_data.gender_guesses
     gender_guesses = Map.put(gender_guesses, iter, gender_guess)
 
-    response_data = socket.assigns.response_data
-    response_data = Map.put(response_data, "gender_guesses", gender_guesses)
+
+    response_data = %{socket.assigns.response_data | gender_guesses: gender_guesses}
     socket
     |> assign(response_data: response_data)
     |> noreply()
@@ -353,9 +353,11 @@ defmodule BabyshowerWeb.RsvpFill do
   end
 
   def handle_event("responded_gender", %{"guest-response" => value, "iter" => iter}, socket) do
-    individual_gender_vote = %{"first_name" => "family", "gender_guess" => value}
+    iter = String.to_integer(iter)
 
-    gender_guesses = Map.put(socket.assigns.response_data.gender_guesses, String.to_integer(iter), individual_gender_vote)
+    individual_gender_vote = %{"first_name" => socket.assigns.response_data.gender_guesses[iter]["first_name"], "gender_guess" => value}
+
+    gender_guesses = Map.put(socket.assigns.response_data.gender_guesses, iter, individual_gender_vote)
     response_data = %{socket.assigns.response_data | gender_guesses: gender_guesses}
 
     rsvp_form_state = RsvpFormState.gender_answered(socket.assigns.rsvp_form_state, value)
@@ -376,19 +378,27 @@ defmodule BabyshowerWeb.RsvpFill do
   end
 
   def handle_event("save-rsvp", _params, socket) do
-    response = socket.assigns.response
+    response_data = socket.assigns.response_data
     guest = socket.assigns.guest
+    family_vote? = socket.assigns.rsvp_form_state.family_vote?
 
-    n_members_accepted = case response.invite_accepted do
-      true -> response.n_members_accepted
+
+    gender_guesses = case family_vote? do
+      true -> response_data.gender_guesses
+      false -> response_data.gender_guesses |> Map.delete(0)
+    end
+
+    n_members_accepted = case response_data.invite_accepted do
+      true -> response_data.n_members_accepted
       false ->  0
     end
 
     guest_response = %{
-      invite_accepted: response.invite_accepted, n_members_accepted: n_members_accepted,
-      gender_guesses: [%{first_name: "family", gender_guess: response.gender_vote}]
+      invite_accepted: response_data.invite_accepted, n_members_accepted: n_members_accepted,
+      gender_guesses: gender_guesses
       }
 
+    IO.inspect(guest_response)
 
     result = case guest.response do
       nil -> ResponseResults.save_response(guest, guest_response)

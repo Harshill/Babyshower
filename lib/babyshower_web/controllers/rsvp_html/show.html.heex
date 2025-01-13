@@ -105,12 +105,20 @@
                             Unable to attend
                         </div>
 
-                        <div :if={@guest.response.invite_accepted === true} class="mt-4 cartoon-text flex items-center justify-center gap-2"> 
+                        <div :if={@guest.response.invite_accepted === true and @family_guess != nil} class="mt-4 cartoon-text flex items-center justify-center gap-2"> 
                             Number of Guests:
                             <span class={["text-xl", @family_guess.gender_guess == "boy" && "name-eshangi",  @family_guess.gender_guess == "girl" && "name-harshil"]}>
                                 <%= @guest.response.n_members_accepted %>
                             </span>
                         </div>
+
+                        <div :if={@guest.response.invite_accepted === true and @family_guess == nil} class="mt-4 cartoon-text flex items-center justify-center gap-2"> 
+                            Number of Guests:
+                            <span class={["text-xl"]}>
+                                <%= @guest.response.n_members_accepted %>
+                            </span>
+                        </div>
+
 
                         <div :if={@family_guess != nil} class="mt-4 cartoon-text flex items-center justify-center gap-2"> 
                             You Guessed the Baby to be a 
@@ -133,14 +141,14 @@
                             <div :for={guess <- @guesses} >
                                 <div class="flex justify-center m-6">
                                     <%= guess.first_name %>'s guess
-                                    <div :if={guess.gender_guess == "Boy"} class="ml-4 flex rounded-lg p-2 bg-[#1E90FF] text-white font-bold shadow-md transform scale-105">
+                                    <div :if={guess.gender_guess == "boy"} class="ml-4 flex rounded-lg p-2 bg-[#1E90FF] text-white font-bold shadow-md transform scale-105">
                                         <svg xmlns="http://www.w3.org/2000/svg" class={["h-5 w-5", guess.gender_guess == "boy" && "text-white"]} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <circle cx="12" cy="8" r="5" stroke-width="2"/>
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 13v8M9 18h6M7 4l3-3h4l3 3"/>
                                             </svg>
                                         Boy
                                     </div>
-                                    <div :if={guess.gender_guess == "Girl"} class="ml-4 flex rounded-lg p-2 bg-[#FF69B4] text-white font-bold shadow-md transform scale-105">
+                                    <div :if={guess.gender_guess == "girl"} class="ml-4 flex rounded-lg p-2 bg-[#FF69B4] text-white font-bold shadow-md transform scale-105">
                                         <svg xmlns="http://www.w3.org/2000/svg" class={["h-5 w-5", guess.gender_guess == "Girl" && "text-white"]} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <circle cx="12" cy="8" r="5" stroke-width="2"/>
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 13v8M9 18h6M12 3c0 0 3 1 3 3s-3 3-3 3s-3-1-3-3s3-3 3-3"/>
