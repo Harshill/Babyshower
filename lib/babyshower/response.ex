@@ -3,11 +3,14 @@ defmodule Babyshower.ResponseResults do
   alias Babyshower.Response.GuestResponse
 
   def save_response(guest, attrs) do
-    response = Ecto.build_assoc(guest, :response, attrs)
-    Repo.insert(response)
+    %GuestResponse{guest_id: guest.id}
+    |> GuestResponse.changeset(attrs)
+    |> Repo.insert()
   end
 
   def update_response(guest, attrs) do
-    guest.response |> GuestResponse.changeset(attrs) |> Repo.update()
+    guest.response
+    |> GuestResponse.changeset(attrs)
+    |> Repo.update()
   end
 end

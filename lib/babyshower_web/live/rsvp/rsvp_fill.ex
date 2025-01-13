@@ -384,7 +384,7 @@ defmodule BabyshowerWeb.RsvpFill do
 
 
     gender_guesses = case family_vote? do
-      true -> response_data.gender_guesses
+      true -> response_data.gender_guesses |> Map.delete(1)
       false -> response_data.gender_guesses |> Map.delete(0)
     end
 
@@ -404,6 +404,8 @@ defmodule BabyshowerWeb.RsvpFill do
       nil -> ResponseResults.save_response(guest, guest_response)
       _ -> ResponseResults.update_response(guest, guest_response)
     end
+
+    IO.inspect(result)
 
     case result do
       {:ok, _response} -> socket
