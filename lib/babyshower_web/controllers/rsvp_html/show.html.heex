@@ -137,10 +137,13 @@
                                 Girl
                             </div>
                         </div>
-                        <div :if={@family_guess == nil} class="border-2 border-gray-200 rounded-lg p-4 mt-6">
-                            <div :for={guess <- @guesses} >
-                                <div class="flex justify-center m-6">
-                                    <%= guess.first_name %>'s guess
+                        <div class="border rounded-2xl bg-white/80 backdrop-blur-sm shadow-lg p-6 mt-6">
+                            <div :for={guess <- @guesses} class="group">
+                                <div class="flex items-center gap-4 justify-between p-4 transition-all duration-300 hover:bg-gray-50 rounded-xl">
+                                    <span class="text-lg font-medium text-gray-700">
+                                        <%= guess.first_name %>'s guess
+                                    </span>
+                                    
                                     <div :if={guess.gender_guess == "boy"} class="ml-4 flex rounded-lg p-2 bg-[#1E90FF] text-white font-bold shadow-md transform scale-105">
                                         <svg xmlns="http://www.w3.org/2000/svg" class={["h-5 w-5", guess.gender_guess == "boy" && "text-white"]} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <circle cx="12" cy="8" r="5" stroke-width="2"/>
@@ -156,7 +159,7 @@
                                         Girl
                                     </div>
                                 </div>
-                                <hr/>
+                                <div class="h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent last:hidden"></div>
                             </div>
                         </div>
                     </div>
