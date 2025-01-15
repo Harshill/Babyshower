@@ -98,12 +98,20 @@
                             Attending
                         </div>
                         
-                        <div :if={@guest.response.invite_accepted === false} class={["text-xl font-bold flex items-center justify-center gap-2 text-xl", @family_guess.gender_guess == "boy" && "name-eshangi",  @family_guess.gender_guess == "girl" && "name-harshil"]}>
+                        <div :if={@guest.response.invite_accepted === false and @family_guess != nil} class={["text-xl font-bold flex items-center justify-center gap-2 text-xl", @family_guess.gender_guess == "boy" && "name-eshangi",  @family_guess.gender_guess == "girl" && "name-harshil"]}>
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                             </svg>
                             Unable to attend
                         </div>
+
+                        <div :if={@guest.response.invite_accepted === false and @family_guess == nil} class={["text-xl font-bold flex items-center justify-center gap-2 text-xl text-pink-900/80"]}>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                            Unable to attend
+                        </div>
+
 
                         <div :if={@guest.response.invite_accepted === true and @family_guess != nil} class="mt-4 cartoon-text flex items-center justify-center gap-2"> 
                             Number of Guests:
