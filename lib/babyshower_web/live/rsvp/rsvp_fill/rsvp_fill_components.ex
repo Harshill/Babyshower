@@ -140,11 +140,11 @@ defmodule BabyshowerWeb.RSVPFill.Components do
     ~H"""
     <form :for={number <- 1..@number_of_votes}  class="flex flex-col sm:flex-row gap-4 justify-center mt-3">
       <div class="flex gap-4 items-center">
-        <%!-- <button phx-click="remove_vote" phx-value-iter={number} class="flex p-2 rounded-full hover:bg-gray-100 transition-colors duration-200">
+        <button id={"remove_botton_#{number}"} type="button" phx-click="remove_vote" phx-value-iter={number} class="flex p-2 rounded-full hover:bg-gray-100 transition-colors duration-200">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500 hover:text-red-500 transition-colors duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
           </svg>
-        </button> --%>
+        </button>
         <input
           type="text"
           id={"first_name-#{number}"}

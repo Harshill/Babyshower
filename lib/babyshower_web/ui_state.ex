@@ -77,11 +77,12 @@ defmodule BabyshowerWeb.RsvpFormState do
 
   def handle_confirm_button_multi_vote(state, response_data) do
 
-    IO.inspect(response_data.gender_guesses)
     nil_responses = response_data.gender_guesses
+
     |> Map.values()
-    |> Enum.drop_while(
-      fn x -> x["first_name"] == "family" or (x["gender_guess"] != nil and check_first_name(x["first_name"])) end)
+    |> Enum.filter(
+      fn x -> x["first_name"] != "family" and (x["gender_guess"] == nil or bad_first_name(x["first_name"])) end)
+
 
     IO.inspect(nil_responses)
     case length(nil_responses) do
@@ -90,11 +91,12 @@ defmodule BabyshowerWeb.RsvpFormState do
     end
   end
 
-  def check_first_name(first_name) do
+  def bad_first_name(first_name) do
     case first_name do
-      "" -> false
-      nil -> false
-      _ -> true
+      "" -> true
+      nil -> true
+      "family" -> false
+      _ -> false
     end
   end
 

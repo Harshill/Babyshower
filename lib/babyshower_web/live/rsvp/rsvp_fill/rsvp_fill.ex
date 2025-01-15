@@ -106,20 +106,18 @@ defmodule BabyshowerWeb.RsvpFill do
   end
 
   def handle_event("remove_vote", _params, socket) do
-    IO.inspect("Hello")
-    socket |> noreply()
 
-    # rsvp_form_state = RsvpFormState.handle_remove_vote(socket.assigns.rsvp_form_state)
-    # # individual_gender_votes = Map.put(socket.assigns.response_data.gender_guesses, number_of_votes, %{"first_name" => nil, "gender_guess" => nil})
+    rsvp_form_state = RsvpFormState.handle_remove_vote(socket.assigns.rsvp_form_state)
+    # individual_gender_votes = Map.put(socket.assigns.response_data.gender_guesses, number_of_votes, %{"first_name" => nil, "gender_guess" => nil})
 
-    # response_data = %{socket.assigns.response_data | number_of_votes: rsvp_form_state.n_member_votes}
+    response_data = %{socket.assigns.response_data | number_of_votes: rsvp_form_state.n_member_votes}
 
-    # rsvp_form_state = RsvpFormState.handle_confirm_button_multi_vote(rsvp_form_state, response_data)
+    rsvp_form_state = RsvpFormState.handle_confirm_button_multi_vote(rsvp_form_state, response_data)
 
-    # socket
-    # |> assign(response_data: response_data)
-    # |> assign(rsvp_form_state: rsvp_form_state)
-    # |> noreply()
+    socket
+    |> assign(response_data: response_data)
+    |> assign(rsvp_form_state: rsvp_form_state)
+    |> noreply()
   end
 
   def handle_event("add_vote", _params, socket) do
@@ -209,11 +207,24 @@ defmodule BabyshowerWeb.RsvpFill do
     guest = socket.assigns.guest
     family_vote? = socket.assigns.rsvp_form_state.family_vote?
 
+    gender_guesses = response_data.gender_guesses
 
     gender_guesses = case family_vote? do
-      true -> response_data.gender_guesses |> Map.delete(1)
-      false -> response_data.gender_guesses |> Map.delete(0)
+      true ->
+        keys = gender_guesses
+               |> Map.keys()
+               |> Enum.drop_while(fn x -> x == 0 end)
+        gender_guesses |> Map.drop(keys)
+      false ->
+        keys = gender_guesses
+               |> Map.keys()
+               |> Enum.filter(fn x -> x == 0 or x > response_data.number_of_votes end)
+        IO.inspect(keys)
+        IO.inspect(response_data.number_of_votes)
+        gender_guesses |> Map.drop(keys)
     end
+
+    IO.inspect(gender_guesses)
 
     n_members_accepted = case response_data.invite_accepted do
       true -> response_data.n_members_accepted
