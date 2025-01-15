@@ -99,7 +99,7 @@ defmodule BabyshowerWeb.RSVPFill.Components do
             ]}
           >
             Individual Vote
-            <span class="text-xs block text-gray-400">vote by family member</span>
+            <span class="text-xs block text-gray-400">Each family member can vote</span>
           </button>
         </nav>
       </div>
