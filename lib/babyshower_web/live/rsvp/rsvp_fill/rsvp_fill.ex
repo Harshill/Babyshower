@@ -105,12 +105,14 @@ defmodule BabyshowerWeb.RsvpFill do
     |> noreply()
   end
 
-  def handle_event("remove_vote", _params, socket) do
+  def handle_event("remove_vote", %{"iter" => iter}, socket) do
 
     rsvp_form_state = RsvpFormState.handle_remove_vote(socket.assigns.rsvp_form_state)
     # individual_gender_votes = Map.put(socket.assigns.response_data.gender_guesses, number_of_votes, %{"first_name" => nil, "gender_guess" => nil})
 
-    response_data = %{socket.assigns.response_data | number_of_votes: rsvp_form_state.n_member_votes}
+    response_data = socket.assigns.response_data
+    response_data = %{response_data | number_of_votes: rsvp_form_state.n_member_votes}
+    response_data = ResponseData.remove_specific_vote(response_data, iter)
 
     rsvp_form_state = RsvpFormState.handle_confirm_button_multi_vote(rsvp_form_state, response_data)
 
@@ -219,8 +221,7 @@ defmodule BabyshowerWeb.RsvpFill do
         keys = gender_guesses
                |> Map.keys()
                |> Enum.filter(fn x -> x == 0 or x > response_data.number_of_votes end)
-        IO.inspect(keys)
-        IO.inspect(response_data.number_of_votes)
+
         gender_guesses |> Map.drop(keys)
     end
 

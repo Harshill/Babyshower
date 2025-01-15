@@ -32,4 +32,24 @@ defmodule Babyshower.Invitation.ResponseData do
     |> validate_format(:first_name, ~r/\A[^ ]+\z/, message: "cannot only conatain letters")
   end
 
+  def remove_specific_vote(response_data, iter) do
+    gender_guesses = response_data.gender_guesses
+
+    gender_guesses = gender_guesses
+    |> Map.delete(iter)
+
+    keys = gender_guesses
+           |> Map.keys()
+           |> Enum.filter(fn x -> x > String.to_integer(iter) end)
+           |> Enum.sort()
+
+    changes = keys
+              |> Enum.map(fn x -> %{x - 1 => gender_guesses[x]} end)
+
+    gender_guesses = gender_guesses
+              |> Map.drop((keys))
+              |> Map.merge(List.first(changes))
+
+    %{response_data | gender_guesses: gender_guesses}
+  end
 end
