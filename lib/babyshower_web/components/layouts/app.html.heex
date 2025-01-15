@@ -104,8 +104,81 @@
           </div>
           </div>
        <div class="cartoon-info-card flex flex-col md:flex-row items-center justify-center gap-2 p-2">
-            <p>Baby Registry at <a href="https://www.amazon.com/baby-reg/eshangi-harshil-march-2025-concord/1Q2Z3Y4W5X6C" target="_blank" class="text-[blue]">Amazon</a>
-            </p> 
+            <a href="https://www.amazon.com/baby-reg/eshangi-harshil-march-2025-concord/1Q2Z3Y4W5X6C" 
+                target="_blank" 
+                class="flex flex-col items-center group">
+                
+                <svg class="h-48 w-48" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+                  <!-- Gradient definitions -->
+                  <defs>
+                    <!-- Metallic gradient for box -->
+                    <linearGradient id="metallic" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" style="stop-color:#FFE5E5"/>
+                      <stop offset="50%" style="stop-color:#FFB6C1"/>
+                      <stop offset="100%" style="stop-color:#FF69B4"/>
+                    </linearGradient>
+                    <!-- Sparkle gradient -->
+                    <radialGradient id="sparkle" cx="50%" cy="50%" r="50%">
+                      <stop offset="0%" style="stop-color:white"/>
+                      <stop offset="100%" style="stop-color:transparent"/>
+                    </radialGradient>
+                    <!-- Diamond gradient -->
+                    <linearGradient id="diamond" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" style="stop-color:#FFFFFF"/>
+                      <stop offset="50%" style="stop-color:#E0E0E0"/>
+                      <stop offset="100%" style="stop-color:#FFFFFF"/>
+                    </linearGradient>
+                  </defs>
+
+                  <!-- Main gift box -->
+                  <rect x="100" y="150" width="200" height="180" fill="url(#metallic)" stroke="#FFB6C1" stroke-width="3"/>
+                  
+                  <!-- Box lid -->
+                  <rect x="80" y="130" width="240" height="40" fill="url(#metallic)" stroke="#FFB6C1" stroke-width="3"/>
+                  
+                  <!-- Ribbon -->
+                  <rect x="180" y="130" width="40" height="200" fill="#FF1493" stroke="#FF69B4" stroke-width="2"/>
+                  <rect x="100" y="220" width="200" height="40" fill="#FF1493" stroke="#FF69B4" stroke-width="2"/>
+
+                  <!-- Decorative jewels -->
+                  <!-- Center jewel -->
+                  <polygon points="200,200 190,210 200,220 210,210" fill="url(#diamond)" stroke="#FFF" stroke-width="1"/>
+                  <circle cx="200" cy="210" r="3" fill="white"/>
+                  
+                  <!-- Corner jewels -->
+                  <polygon points="120,170 110,180 120,190 130,180" fill="url(#diamond)" stroke="#FFF" stroke-width="1"/>
+                  <polygon points="280,170 270,180 280,190 290,180" fill="url(#diamond)" stroke="#FFF" stroke-width="1"/>
+                  <polygon points="120,290 110,300 120,310 130,300" fill="url(#diamond)" stroke="#FFF" stroke-width="1"/>
+                  <polygon points="280,290 270,300 280,310 290,300" fill="url(#diamond)" stroke="#FFF" stroke-width="1"/>
+
+                  <!-- Sparkles -->
+                  <circle cx="150" cy="180" r="5" fill="url(#sparkle)"/>
+                  <circle cx="250" cy="180" r="5" fill="url(#sparkle)"/>
+                  <circle cx="150" cy="260" r="5" fill="url(#sparkle)"/>
+                  <circle cx="250" cy="260" r="5" fill="url(#sparkle)"/>
+                  <circle cx="200" cy="150" r="5" fill="url(#sparkle)"/>
+                  
+                  <!-- Small decorative gems scattered around -->
+                  <circle cx="160" cy="200" r="4" fill="#FF69B4"/>
+                  <circle cx="240" cy="200" r="4" fill="#FF69B4"/>
+                  <circle cx="160" cy="240" r="4" fill="#FF69B4"/>
+                  <circle cx="240" cy="240" r="4" fill="#FF69B4"/>
+                  
+                  <!-- Extra sparkle effects -->
+                  <path d="M140,160 L145,165 M143,160 L140,165" stroke="white" stroke-width="1"/>
+                  <path d="M260,160 L265,165 M263,160 L260,165" stroke="white" stroke-width="1"/>
+                  <path d="M140,280 L145,285 M143,280 L140,285" stroke="white" stroke-width="1"/>
+                  <path d="M260,280 L265,285 M263,280 L260,285" stroke="white" stroke-width="1"/>
+                </svg>
+
+                <span class="text-lg font-medium text-blue-500 group-hover:text-pink-500 flex items-center gap-2">
+                  View Baby Registry on Amazon
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                  </svg>
+                </span>
+              </a>
+
         </div>
       </div>
       {@inner_content}
