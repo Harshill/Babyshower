@@ -71,7 +71,12 @@ defmodule BabyshowerWeb.RSVPFill.Components do
     ~H"""
     <div :if={@show_gender_q?}>
 
-      <button class="cartoon-detail rounded-lg px-6 py-3 font-medium" phx-click="toggle-individual-vote" > {if @family_vote, do: "Individual Vote", else: "Family Vote"} </button>
+      <button class="cartoon-detail grid grid-cols-1 rounded-lg px-6 py-3 font-medium text-white bg-gray-700" phx-click="toggle-individual-vote" >
+
+       {if @family_vote, do: "Individual Vote", else: "Family Vote"}
+       <span class="text-xs text-gray-300"> {if @family_vote, do: "vote by family member", else: "Vote once for the whole family"} </span>
+       {if @family_vote, do: "", else: ""}
+      </button>
 
       <div class="text-center">
         <h3 class="cartoon-text text-xl mb-4">Guess the gender of the baby!</h3>
@@ -79,7 +84,7 @@ defmodule BabyshowerWeb.RSVPFill.Components do
           <.render_family_vote_form family_vote={@family_vote} gender_guess={@response_data.gender_guesses[0]["gender_guess"]} />
         </div>
         <div :if={@family_vote == false}>
-          <.render_individual_vote_form response_data={@response_data} number_of_votes={@response_data.number_of_votes} gender_guesses={@response_data.gender_guesses}/>
+          <.render_individual_vote_form number_of_votes={@response_data.number_of_votes} gender_guesses={@response_data.gender_guesses}/>
         </div>
       </div>
     </div>
