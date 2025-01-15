@@ -110,20 +110,7 @@ defmodule BabyshowerWeb.RsvpSearch do
         |> assign(form: phone_number_form(changeset))
         |> noreply()
 
-      guest ->
-        case guest.response == nil do
-          false ->
-            socket
-            |> assign(:guest, guest)
-            |> push_navigate(to: ~p"/rsvp/#{guest.phone_number}/show")
-            |> noreply()
-
-          true ->
-            socket
-            |> assign(:guest, guest)
-            |> push_navigate(to: ~p"/rsvp/#{guest.phone_number}/fill")
-            |> noreply()
-        end
+      guest -> navigate_to_guest(socket, guest)
     end
   end
 
@@ -131,4 +118,17 @@ defmodule BabyshowerWeb.RsvpSearch do
   def phone_number_form(phone_number_changeset) do
     to_form(phone_number_changeset, as: "RsvpSearch", id: "rsvp-search", errors: ["Error"])
   end
+
+  def navigate_to_guest(socket, guest) do
+    fill_or_show = case guest.response do
+      nil -> "fill"
+      _ -> "show"
+    end
+
+    socket
+      |> assign(:guest, guest)
+      |> push_navigate(to: ~p"/rsvp/#{guest.phone_number}/#{fill_or_show}")
+      |> noreply()
+  end
+
  end
