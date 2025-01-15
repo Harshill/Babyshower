@@ -94,26 +94,51 @@ defmodule BabyshowerWeb.RsvpFill do
     gender_guesses = socket.assigns.response_data.gender_guesses
     gender_guesses = Map.put(gender_guesses, iter, gender_guess)
 
-
     response_data = %{socket.assigns.response_data | gender_guesses: gender_guesses}
+
+
+    rsvp_form_state = RsvpFormState.handle_confirm_button_multi_vote(socket.assigns.rsvp_form_state, response_data)
+
     socket
     |> assign(response_data: response_data)
+    |> assign(rsvp_form_state: rsvp_form_state)
     |> noreply()
+  end
+
+  def handle_event("remove_vote", _params, socket) do
+    IO.inspect("Hello")
+    socket |> noreply()
+
+    # rsvp_form_state = RsvpFormState.handle_remove_vote(socket.assigns.rsvp_form_state)
+    # # individual_gender_votes = Map.put(socket.assigns.response_data.gender_guesses, number_of_votes, %{"first_name" => nil, "gender_guess" => nil})
+
+    # response_data = %{socket.assigns.response_data | number_of_votes: rsvp_form_state.n_member_votes}
+
+    # rsvp_form_state = RsvpFormState.handle_confirm_button_multi_vote(rsvp_form_state, response_data)
+
+    # socket
+    # |> assign(response_data: response_data)
+    # |> assign(rsvp_form_state: rsvp_form_state)
+    # |> noreply()
   end
 
   def handle_event("add_vote", _params, socket) do
 
-    response_data = %{socket.assigns.response_data | number_of_votes: socket.assigns.response_data.number_of_votes + 1}
+    rsvp_form_state = RsvpFormState.handle_add_vote(socket.assigns.rsvp_form_state)
     # individual_gender_votes = Map.put(socket.assigns.response_data.gender_guesses, number_of_votes, %{"first_name" => nil, "gender_guess" => nil})
+
+    response_data = %{socket.assigns.response_data | number_of_votes: rsvp_form_state.n_member_votes}
 
     socket
     |> assign(response_data: response_data)
+    |> assign(rsvp_form_state: rsvp_form_state)
     |> noreply()
   end
 
+
   def handle_event("toggle-individual-vote", _params, socket) do
     socket
-    |> assign(rsvp_form_state: %{socket.assigns.rsvp_form_state | family_vote?: !socket.assigns.rsvp_form_state.family_vote?})
+    |> assign(rsvp_form_state: RsvpFormState.handle_family_vote(socket.assigns.rsvp_form_state))
     |> noreply()
   end
 
@@ -156,8 +181,14 @@ defmodule BabyshowerWeb.RsvpFill do
     gender_guesses = Map.put(socket.assigns.response_data.gender_guesses, iter, individual_gender_vote)
     response_data = %{socket.assigns.response_data | gender_guesses: gender_guesses}
 
-    rsvp_form_state = RsvpFormState.gender_answered(socket.assigns.rsvp_form_state, value)
+    rsvp_form_state = socket.assigns.rsvp_form_state
 
+    rsvp_form_state = case rsvp_form_state.family_vote? do
+      true -> RsvpFormState.gender_answered(socket.assigns.rsvp_form_state, value)
+      false -> RsvpFormState.handle_confirm_button_multi_vote(rsvp_form_state, response_data)
+    end
+
+    IO.inspect(rsvp_form_state)
     socket
     |> assign(response_data: response_data)
     |> assign(rsvp_form_state: rsvp_form_state)
@@ -198,8 +229,6 @@ defmodule BabyshowerWeb.RsvpFill do
       nil -> ResponseResults.save_response(guest, guest_response)
       _ -> ResponseResults.update_response(guest, guest_response)
     end
-
-    IO.inspect(result)
 
     case result do
       {:ok, _response} -> socket

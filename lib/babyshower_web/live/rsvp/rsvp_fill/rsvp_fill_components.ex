@@ -70,22 +70,46 @@ defmodule BabyshowerWeb.RSVPFill.Components do
 
     ~H"""
     <div :if={@show_gender_q?}>
+      <div class="border-b border-gray-200">
 
-      <button class="cartoon-detail grid grid-cols-1 rounded-lg px-6 py-3 font-medium text-white bg-gray-700" phx-click="toggle-individual-vote" >
+      <div class="text-center mt-6 flex flex-col">
 
-       {if @family_vote, do: "Individual Vote", else: "Family Vote"}
-       <span class="text-xs text-gray-300"> {if @family_vote, do: "vote by family member", else: "Vote once for the whole family"} </span>
-       {if @family_vote, do: "", else: ""}
-      </button>
+        <h3 class="cartoon-text text-xl">Guess the gender of the baby!</h3>
 
-      <div class="text-center">
-        <h3 class="cartoon-text text-xl mb-4">Guess the gender of the baby!</h3>
-        <div :if={@family_vote == true}>
-          <.render_family_vote_form family_vote={@family_vote} gender_guess={@response_data.gender_guesses[0]["gender_guess"]} />
-        </div>
-        <div :if={@family_vote == false}>
-          <.render_individual_vote_form number_of_votes={@response_data.number_of_votes} gender_guesses={@response_data.gender_guesses}/>
-        </div>
+        <nav class="flex mb-4 justify-center space-x-8" aria-label="Tabs">
+          <button
+              phx-click="toggle-individual-vote"
+              class={[
+                "py-4 px-1 relative font-medium text-sm transition-colors duration-200",
+                "focus:outline-none whitespace-nowrap",
+                @family_vote && "text-blue-600 border-b-2 border-blue-600",
+                !@family_vote && "text-gray-500 hover:text-gray-700"
+              ]}
+            >
+              Family Vote
+              <span class="text-xs block text-gray-400">Vote once for the whole family</span>
+          </button>
+          <button
+            phx-click="toggle-individual-vote"
+            class={[
+              "py-4 px-1 relative font-medium text-sm transition-colors duration-200",
+              "focus:outline-none whitespace-nowrap",
+              !@family_vote && "text-blue-600 border-b-2 border-blue-600",
+              @family_vote && "text-gray-500 hover:text-gray-700"
+            ]}
+          >
+            Individual Vote
+            <span class="text-xs block text-gray-400">vote by family member</span>
+          </button>
+        </nav>
+      </div>
+
+      <div :if={@family_vote == true}>
+        <.render_family_vote_form family_vote={@family_vote} gender_guess={@response_data.gender_guesses[0]["gender_guess"]} />
+      </div>
+      <div :if={@family_vote == false}>
+        <.render_individual_vote_form number_of_votes={@response_data.number_of_votes} gender_guesses={@response_data.gender_guesses}/>
+      </div>
       </div>
     </div>
     """
@@ -115,19 +139,27 @@ defmodule BabyshowerWeb.RSVPFill.Components do
   def render_individual_vote_form(assigns) do
     ~H"""
     <form :for={number <- 1..@number_of_votes}  class="flex flex-col sm:flex-row gap-4 justify-center mt-3">
-      <input
-        type="text"
-        id={"first_name-#{number}"}
-        name={"first_name-#{number}"}
-        placeholder="First Name"
-        class="mt-1 block mx-auto rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-        phx-change="responded_name"
-        phx-value-iter={number}
-        value={@gender_guesses[number]["first_name"]}
-        />
+      <div class="flex gap-4 items-center">
+        <%!-- <button phx-click="remove_vote" phx-value-iter={number} class="flex p-2 rounded-full hover:bg-gray-100 transition-colors duration-200">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500 hover:text-red-500 transition-colors duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button> --%>
+        <input
+          type="text"
+          id={"first_name-#{number}"}
+          name={"first_name-#{number}"}
+          placeholder="First Name"
+          class="mt-1 block mx-auto rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+          phx-change="responded_name"
+          phx-value-iter={number}
+          value={@gender_guesses[number]["first_name"]}
+          />
+      </div>
       <.render_boy_girl_vote gender_guess={@gender_guesses[number]["gender_guess"]} iter={number}/>
     </form>
-    <button phx-click="add_vote" class="cartoon-detail rounded-lg px-6 py-3 font-medium" > Add Vote </button>
+
+    <button phx-click="add_vote" class="mt-4 cartoon-detail rounded-lg px-6 py-3 font-medium" > Add Vote </button>
 
     """
   end
