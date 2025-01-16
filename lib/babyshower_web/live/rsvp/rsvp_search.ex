@@ -39,7 +39,7 @@ defmodule BabyshowerWeb.RsvpSearch do
           <h1 class="rsvp-header ">
             Find Your RSVP
           </h1>
-          <p class="cartoon-text text-l text-gray-800">Enter your phone number to access your invitation</p>
+          <p class="cartoon-text text-l text-gray-800">Enter your <span class="name-harshil italic text-lg"> phone number </span> to access your invitation</p>
         </div>
 
         <!-- Search Card -->

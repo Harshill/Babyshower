@@ -70,46 +70,42 @@ defmodule BabyshowerWeb.RSVPFill.Components do
 
     ~H"""
     <div :if={@show_gender_q?}>
-      <div class="border-b border-gray-200">
 
       <div class="text-center mt-6 flex flex-col">
+        <h3 class="cartoon-text text-xl mb-6">Guess the gender of the baby!</h3>
 
-        <h3 class="cartoon-text text-xl">Guess the gender of the baby!</h3>
-
-        <nav class="flex mb-4 justify-center space-x-8" aria-label="Tabs">
+        <nav class="flex gap-2 justify-between md:justify-start border-gray-200" aria-label="Tabs">
           <button
-              phx-click="toggle-individual-vote"
-              class={[
-                "py-4 px-1 relative font-medium text-sm transition-colors duration-200",
-                "focus:outline-none whitespace-nowrap",
-                @family_vote && "text-blue-600 border-b-2 border-blue-600",
-                !@family_vote && "text-gray-500 hover:text-gray-700"
-              ]}
-            >
-              Family Vote
-              <span class="text-xs block text-gray-400">Vote once for the whole family</span>
+            phx-click="toggle-individual-vote"
+            class={[
+              "border-t h-10 w-30 px-4 border-r border-l font-medium text-xs transition-all duration-200",
+              "-mb-px",
+              @family_vote && "bg-white text-blue-600 z-10",
+              !@family_vote && "bg-gray-100 text-gray-500 hover:text-gray-700"
+            ]}
+          >
+            Family Vote
+
           </button>
           <button
             phx-click="toggle-individual-vote"
             class={[
-              "py-4 px-1 relative font-medium text-sm transition-colors duration-200",
-              "focus:outline-none whitespace-nowrap",
-              !@family_vote && "text-blue-600 border-b-2 border-blue-600",
-              @family_vote && "text-gray-500 hover:text-gray-700"
+              "border-t h-10 w-30 px-4 border-r border-l font-medium text-xs transition-all duration-200",
+              "-mb-px",
+              @family_vote == false && "bg-white text-blue-600 z-10",
+              !@family_vote == false && "bg-gray-100 text-gray-500 hover:text-gray-700"
             ]}
           >
             Individual Vote
-            <span class="text-xs block text-gray-400">Each family member can vote</span>
+
           </button>
         </nav>
       </div>
-
       <div :if={@family_vote == true}>
         <.render_family_vote_form family_vote={@family_vote} gender_guess={@response_data.gender_guesses[0]["gender_guess"]} />
       </div>
       <div :if={@family_vote == false}>
         <.render_individual_vote_form number_of_votes={@response_data.number_of_votes} gender_guesses={@response_data.gender_guesses}/>
-      </div>
       </div>
     </div>
     """
@@ -127,8 +123,9 @@ defmodule BabyshowerWeb.RSVPFill.Components do
     assigns = assigns |> assign(gender_guess: guess)
 
     ~H"""
-    <form class="flex flex-col sm:flex-row gap-4 justify-center mt-3">
-      <.render_boy_girl_vote gender_guess={@gender_guess} iter={0}/>
+    <form class="flex items-center flex-col sm:flex-row gap-4 justify-center border-b border-l border-r bg-white/80 backdrop-blur-sm shadow-lg p-6">
+        <p class="text-sm text-gray-600" > You can vote once per family </p>
+        <.render_boy_girl_vote gender_guess={@gender_guess} iter={0}/>
     </form>
     """
   end
@@ -138,29 +135,61 @@ defmodule BabyshowerWeb.RSVPFill.Components do
 
   def render_individual_vote_form(assigns) do
     ~H"""
-    <form :for={number <- 1..@number_of_votes}  class="flex flex-col sm:flex-row gap-4 justify-center mt-3">
-      <div class="flex gap-4 items-center">
-        <button id={"remove_botton_#{number}"} type="button" phx-click="remove_vote" phx-value-iter={number} class="flex p-2 rounded-full hover:bg-gray-100 transition-colors duration-200">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500 hover:text-red-500 transition-colors duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-        <input
-          type="text"
-          id={"first_name-#{number}"}
-          name={"first_name-#{number}"}
-          placeholder="First Name"
-          class="mt-1 block mx-auto rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-          phx-change="responded_name"
+    <form :for={number <- 1..@number_of_votes} class={["relative flex flex-col gap-2 items-center w-full border-b border-l border-r bg-white/80 backdrop-blur-sm shadow-lg p-6", number != 1 && "mt-4"]}>
+    <p class="text-sm text-gray-600" > More family member can vote! </p>
+      <button :if={number != 1}
+          type="button"
+          phx-click="remove_vote"
           phx-value-iter={number}
-          value={@gender_guesses[number]["first_name"]}
-          />
+          class="absolute -top-3 -right-3 flex items-center justify-center w-8 h-8 rounded-full bg-[#FF69B4] hover:bg-[#1E90FF] shadow-lg transition-all duration-300 hover:scale-110">
+        <svg xmlns="http://www.w3.org/2000/svg"
+             class="h-5 w-5 text-white"
+             fill="none"
+             viewBox="0 0 24 24"
+             stroke="currentColor">
+          <path stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+      <div class="flex flex-wrap justify-center py-4 rounded-xl items-center w-full gap-4">
+        <div class="text-center w-full">
+          <h3 class="cartoon-text text-xl">Family Member #{number}</h3>
+        </div>
+          <div class="flex items-center">
+            <input
+              type="text"
+              id={"first_name-#{number}"}
+              name={"first_name-#{number}"}
+              placeholder="First Name"
+              class="mt-1 flex-grow w-48 block rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              phx-change="responded_name"
+              phx-value-iter={number}
+              value={@gender_guesses[number]["first_name"]}
+              />
+          </div>
+          <.render_boy_girl_vote gender_guess={@gender_guesses[number]["gender_guess"]} iter={number}/>
       </div>
-      <.render_boy_girl_vote gender_guess={@gender_guesses[number]["gender_guess"]} iter={number}/>
     </form>
 
-    <button phx-click="add_vote" class="mt-4 cartoon-detail rounded-lg px-6 py-3 font-medium" > Add Vote </button>
-
+    <button
+      phx-click="add_vote"
+      class="mt-4 mx-auto flex items-center justify-center w-14 h-14 rounded-full bg-[#1E90FF] hover:bg-[#FF69B4] shadow-lg transition-all duration-300 hover:scale-110"
+      aria-label="Add Vote">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-8 w-8 text-white"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor">
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M12 6v12M6 12h12" />
+      </svg>
+    </button>
     """
   end
 
@@ -171,36 +200,38 @@ defmodule BabyshowerWeb.RSVPFill.Components do
   def render_boy_girl_vote(assigns) do
 
     ~H"""
-    <.binary_input_component
-        input_id={"gender-boy-#{@iter}"}
-        radio_name="boy"
-        status={@gender_guess === "boy"}
-        iter={@iter}
-        phx_click={"responded_gender"}
-      >
-        <div class="flex items-center justify-center gap-2">
-          <svg xmlns="http://www.w3.org/2000/svg" class={["h-5 w-5", @gender_guess === "boy" && "text-white"]} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <circle cx="12" cy="8" r="5" stroke-width="2"/>
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 13v8M9 18h6M7 4l3-3h4l3 3"/>
-          </svg>
-          Boy
-        </div>
-      </.binary_input_component>
+    <div class="flex items-center gap-2">
       <.binary_input_component
-        input_id={"gender-girl-#{@iter}"}
-        radio_name="girl"
-        status={@gender_guess === "girl"}
-        phx_click={"responded_gender"}
-        iter={@iter}
-      >
-        <div class="flex items-center justify-center gap-2">
-          <svg xmlns="http://www.w3.org/2000/svg" class={["h-5 w-5", @gender_guess === "girl" && "text-white"]} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <circle cx="12" cy="8" r="5" stroke-width="2"/>
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 13v8M9 18h6M12 3c0 0 3 1 3 3s-3 3-3 3s-3-1-3-3s3-3 3-3"/>
-          </svg>
-          Girl
-        </div>
-      </.binary_input_component>
+          input_id={"gender-boy-#{@iter}"}
+          radio_name="boy"
+          status={@gender_guess === "boy"}
+          iter={@iter}
+          phx_click={"responded_gender"}
+        >
+          <div class="flex items-center justify-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class={["h-5 w-5", @gender_guess === "boy" && "text-white"]} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <circle cx="12" cy="8" r="5" stroke-width="2"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 13v8M9 18h6M7 4l3-3h4l3 3"/>
+            </svg>
+            Boy
+          </div>
+        </.binary_input_component>
+        <.binary_input_component
+          input_id={"gender-girl-#{@iter}"}
+          radio_name="girl"
+          status={@gender_guess === "girl"}
+          phx_click={"responded_gender"}
+          iter={@iter}
+        >
+          <div class="flex items-center justify-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class={["h-5 w-5", @gender_guess === "girl" && "text-white"]} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <circle cx="12" cy="8" r="5" stroke-width="2"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 13v8M9 18h6M12 3c0 0 3 1 3 3s-3 3-3 3s-3-1-3-3s3-3 3-3"/>
+            </svg>
+            Girl
+          </div>
+        </.binary_input_component>
+    </div>
     """
   end
 

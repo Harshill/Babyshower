@@ -46,7 +46,7 @@ defmodule BabyshowerWeb.RsvpFill do
               </svg>
               Re-enter Phone Number
             </.link>
-            <h1 class="rsvp-header text-center mb-4">Welcome</h1>
+            <h1 class="rsvp-header text-center mb-4 mt-4">Welcome</h1>
             <div class="cartoon-text text-4xl text-center">
               {@guest.first_name <> " " <> @guest.last_name} and Family!
             </div>
