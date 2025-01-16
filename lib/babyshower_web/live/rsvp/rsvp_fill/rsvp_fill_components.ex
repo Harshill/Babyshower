@@ -167,6 +167,7 @@ defmodule BabyshowerWeb.RSVPFill.Components do
               phx-change="responded_name"
               phx-value-iter={number}
               value={@gender_guesses[number]["first_name"]}
+              phx-debounce="500"
               />
           </div>
           <.render_boy_girl_vote gender_guess={@gender_guesses[number]["gender_guess"]} iter={number}/>
