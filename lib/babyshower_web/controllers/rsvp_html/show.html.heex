@@ -3,8 +3,8 @@
         <div class="p-4">
             <div class="flex justify-between">
                 <%= if @edit === "true" do %>
-                    <BabyshowerWeb.UIComponents.back_link path={~p"/guests"}> Back to Home </BabyshowerWeb.UIComponents.back_link>
-                    <BabyshowerWeb.UIComponents.edit_link path={~p"/guests/#{@guest.phone_number}/edit"}> Edit Response </BabyshowerWeb.UIComponents.edit_link>
+                    <BabyshowerWeb.UIComponents.back_link path={~p"/guests"}> Back to Guests </BabyshowerWeb.UIComponents.back_link>
+                    <BabyshowerWeb.UIComponents.edit_link path={~p"/guests/#{@guest.phone_number}/edit"}> Edit Guest </BabyshowerWeb.UIComponents.edit_link>
                 <% else %>
                     <BabyshowerWeb.UIComponents.back_link path={~p"/"}> Back to Home </BabyshowerWeb.UIComponents.back_link>
                     <BabyshowerWeb.UIComponents.edit_link path={~p"/rsvp/#{@guest.phone_number}/fill"}> Edit Response </BabyshowerWeb.UIComponents.edit_link>
@@ -74,45 +74,20 @@
                         </div>
 
 
-                        <div :if={@family_guess != nil} class="mt-4 cartoon-text flex items-center justify-center gap-2"> 
+                        <div :if={@family_guess != nil} class="mt-4 cartoon-text flex text-sm items-center justify-center gap-2"> 
                             You Guessed the Baby to be a 
-                            <div :if={@family_guess.gender_guess == "boy"} class="flex rounded-lg p-2 bg-[#1E90FF] text-white font-bold shadow-md transform scale-105">
-                                <svg xmlns="http://www.w3.org/2000/svg" class={["h-5 w-5", @guest.response.gender_guesses == "boy" && "text-white"]} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <circle cx="12" cy="8" r="5" stroke-width="2"/>
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 13v8M9 18h6M7 4l3-3h4l3 3"/>
-                                </svg>
-                                Boy
-                            </div>
-                            <div :if={@family_guess.gender_guess == "girl"} class="flex rounded-lg p-2 bg-[#FF69B4] text-white font-bold shadow-md transform scale-105">
-                                <svg xmlns="http://www.w3.org/2000/svg" class={["h-5 w-5", @guest.response.gender_guesses == "girl" && "text-white"]} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <circle cx="12" cy="8" r="5" stroke-width="2"/>
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 13v8M9 18h6M12 3c0 0 3 1 3 3s-3 3-3 3s-3-1-3-3s3-3 3-3"/>
-                                </svg>
-                                Girl
-                            </div>
+                            <BabyshowerWeb.Icons.boy_icon :if={@family_guess.gender_guess == "boy"} />
+                            <BabyshowerWeb.Icons.girl_icon :if={@family_guess.gender_guess == "girl"} />
                         </div>
 
-                        <div :if={@family_guess == nil} class="border rounded-2xl bg-white/80 backdrop-blur-sm shadow-lg p-6 mt-6">
+                        <div :if={@family_guess == nil} class="border-2 bg-gray-100/60 cartoon-text text-sm rounded-2xl backdrop-blur-sm shadow-lg mt-6">
                             <div :for={guess <- @guesses} class="group">
-                                <div class="flex items-center gap-4 justify-between p-4 transition-all duration-300 hover:bg-gray-50 rounded-xl">
+                                <div class="flex items-center gap-4 justify-center p-4 transition-all duration-300 hover:bg-gray-50 rounded-xl">
                                     <span class="text-lg font-medium text-gray-700">
-                                        <%= guess.first_name %>'s guess
+                                        <%= guess.first_name %> guessed
                                     </span>
-                                    
-                                    <div :if={guess.gender_guess == "boy"} class="ml-4 flex rounded-lg p-2 bg-[#1E90FF] text-white font-bold shadow-md transform scale-105">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class={["h-5 w-5", guess.gender_guess == "boy" && "text-white"]} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <circle cx="12" cy="8" r="5" stroke-width="2"/>
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 13v8M9 18h6M7 4l3-3h4l3 3"/>
-                                            </svg>
-                                        Boy
-                                    </div>
-                                    <div :if={guess.gender_guess == "girl"} class="ml-4 flex rounded-lg p-2 bg-[#FF69B4] text-white font-bold shadow-md transform scale-105">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class={["h-5 w-5", guess.gender_guess == "Girl" && "text-white"]} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <circle cx="12" cy="8" r="5" stroke-width="2"/>
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 13v8M9 18h6M12 3c0 0 3 1 3 3s-3 3-3 3s-3-1-3-3s3-3 3-3"/>
-                                        </svg>
-                                        Girl
-                                    </div>
+                                    <BabyshowerWeb.Icons.boy_icon :if={guess.gender_guess == "boy"} />
+                                    <BabyshowerWeb.Icons.girl_icon :if={guess.gender_guess == "girl"} />
                                 </div>
                                 <div class="h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent last:hidden"></div>
                                 <hr/>

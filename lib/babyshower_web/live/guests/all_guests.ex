@@ -77,6 +77,12 @@ defmodule BabyshowerWeb.AllGuests do
   #   """
   # end
 
+  input_id={"gender-boy-#{@iter}"}
+          radio_name="boy"
+          status={@gender_guess === "boy"}
+          iter={@iter}
+          phx_click={"responded_gender"}
+
   def render(assigns) do
     ~H"""
     <div class="min-h-screen bg-gradient-to-br from-pink-50 to-blue-50 py-8 opacity-90">
@@ -92,7 +98,9 @@ defmodule BabyshowerWeb.AllGuests do
           Guest List
         </h1>
 
-        <.binary_input_component input_id="Harshil" radio_name="Harshil" status={@side_selected === "Harshil"} phx_click="change-side">
+        <.binary_input_component
+          input_id="Harshil"
+          radio_name="Harshil" status={@side_selected === "Harshil"} phx_click="change-side">
           Harshil
         </.binary_input_component>
         <.binary_input_component input_id="Eshangi" radio_name="Eshangi" status={@side_selected === "Eshangi"} phx_click="change-side">

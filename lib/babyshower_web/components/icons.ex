@@ -45,6 +45,26 @@ defmodule BabyshowerWeb.Icons do
 
   def boy_icon(assigns) do
     ~H"""
+    <div class="flex rounded-lg p-2 bg-[#1E90FF] text-white font-bold shadow-md">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <circle cx="12" cy="8" r="5" stroke-width="2"/>
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 13v8M9 18h6M7 4l3-3h4l3 3"/>
+      </svg>
+      Boy
+    </div>
     """
   end
+
+  def girl_icon(assigns) do
+    ~H"""
+      <div class="flex rounded-lg p-2 bg-[#FF69B4] text-white font-bold shadow-md">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <circle cx="12" cy="8" r="5"/>
+            <path d="M12 13v8M9 18h6M12 3c0 0 3 1 3 3s-3 3-3 3s-3-1-3-3s3-3 3-3"/>
+          </svg>
+          Girl
+      </div>
+    """
+  end
+
 end
