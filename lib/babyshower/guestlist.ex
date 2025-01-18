@@ -12,13 +12,6 @@ defmodule Babyshower.Guestlist do
     get_guest_by_phone_number("321-333-7644")
   end
 
-  # Changeset for phone number
-  @spec phone_number_changeset(map) :: any()
-  def phone_number_changeset(%Phonenumber{} = phone_number, attrs \\ %{}) do
-    phone_number
-    |> Phonenumber.changeset(attrs)
-  end
-
   # new guest
   def new_guest(attrs, %User{role: role}) do
     case role do

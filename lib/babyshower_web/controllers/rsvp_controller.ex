@@ -19,12 +19,16 @@ defmodule BabyshowerWeb.ShowRsvpController do
       _ -> nil
     end
 
-    IO.inspect(guest)
+    event_info = %{
+      date: EventInfo.event_date(),
+      time: EventInfo.event_time(),
+      location: EventInfo.event_location()
+    }
 
-    event_date = EventInfo.event_date()
-    event_time = EventInfo.event_time()
-    event_location = EventInfo.event_location()
-
-    render(conn, :show, guest: guest, family_guess: family_guess, guesses: guesses, app_layout: false, edit: edit, event_date: event_date, event_time: event_time, event_location: event_location)
+    render(conn, :show,
+           guest: guest, family_guess:
+           family_guess, guesses: guesses,
+           app_layout: false, edit: edit,
+           event_info: event_info)
   end
 end

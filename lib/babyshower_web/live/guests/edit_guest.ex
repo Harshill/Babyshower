@@ -30,7 +30,7 @@ defmodule BabyshowerWeb.EditGuest do
 
             <:actions>
               <div class="flex justify-end space-x-3">
-                <.link navigate={~p"/guests"}
+                <.link navigate={~p"/rsvp/#{@guest.phone_number}/show?&edit=true"}
                   class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200
                          transition-colors duration-200">
                   Cancel

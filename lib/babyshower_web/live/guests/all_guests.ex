@@ -49,33 +49,39 @@ defmodule BabyshowerWeb.AllGuests do
   attr :phx_click, :string
   slot :inner_block, required: true
 
-  def binary_input_component(assigns) do
-    selection_classes = %{
-      selected: "bg-[#1E90FF] text-white font-bold shadow-md transform scale-105",
-      unselected: "bg-white border-2 border-gray-200 text-gray-700 hover:border-[#87CEEB]",
-    }
+  # def binary_input_component(assigns) do
+  #   selection_classes = %{
+  #     selected: "bg-[#1E90FF] text-white font-bold shadow-md transform scale-105",
+  #     unselected: "bg-white border-2 border-gray-200 text-gray-700 hover:border-[#87CEEB]",
+  #   }
 
-    assigns = assigns |> assign(selection_classes: selection_classes)
+  #   assigns = assigns |> assign(selection_classes: selection_classes)
 
-    ~H"""
-      <input
-        id={@input_id}
-        name={@radio_name}
-        phx-click={@phx_click}
-        phx-value-side={@radio_name}
-        type="radio"
-        class="hidden"
-      />
-      <label class={[
-        cond do
-          @status -> @selection_classes.selected
-          true -> @selection_classes.unselected
-        end,
-        "cartoon-detail rounded-lg px-6 py-3 font-medium cursor-pointer transition-all duration-200"
-      ]}
-      for={@input_id}>{render_slot(@inner_block)}</label>
-    """
-  end
+  #   ~H"""
+  #     <input
+  #       id={@input_id}
+  #       name={@radio_name}
+  #       phx-click={@phx_click}
+  #       phx-value-side={@radio_name}
+  #       type="radio"
+  #       class="hidden"
+  #     />
+  #     <label class={[
+  #       cond do
+  #         @status -> @selection_classes.selected
+  #         true -> @selection_classes.unselected
+  #       end,
+  #       "cartoon-detail rounded-lg px-6 py-3 font-medium cursor-pointer transition-all duration-200"
+  #     ]}
+  #     for={@input_id}>{render_slot(@inner_block)}</label>
+  #   """
+  # end
+
+  input_id={"gender-boy-#{@iter}"}
+          radio_name="boy"
+          status={@gender_guess === "boy"}
+          iter={@iter}
+          phx_click={"responded_gender"}
 
   def render(assigns) do
     ~H"""
@@ -92,7 +98,9 @@ defmodule BabyshowerWeb.AllGuests do
           Guest List
         </h1>
 
-        <.binary_input_component input_id="Harshil" radio_name="Harshil" status={@side_selected === "Harshil"} phx_click="change-side">
+        <.binary_input_component
+          input_id="Harshil"
+          radio_name="Harshil" status={@side_selected === "Harshil"} phx_click="change-side">
           Harshil
         </.binary_input_component>
         <.binary_input_component input_id="Eshangi" radio_name="Eshangi" status={@side_selected === "Eshangi"} phx_click="change-side">

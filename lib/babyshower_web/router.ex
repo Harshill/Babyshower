@@ -25,8 +25,6 @@ defmodule BabyshowerWeb.Router do
     live "/", RsvpSearch
     live "/rsvp", RsvpSearch
     live "/rsvp/:phone_number/fill", RsvpFill, :fill
-    live "/rsvp/:phone_number/confirm", RsvpConfirm, :confirm
-    live "/gender_vote", GenderVote
 
   end
 

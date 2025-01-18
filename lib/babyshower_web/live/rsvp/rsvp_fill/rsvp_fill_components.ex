@@ -36,7 +36,7 @@ defmodule BabyshowerWeb.RSVPFill.Components do
   def render_n_members_form(assigns) do
     ~H"""
       <div class=" text-center">
-        <form phx-change="update-members" class="space-y-4">
+        <form phx-change="responded-n-members" class="space-y-4">
           <label for="n_members" class="cartoon-text text-xl mb-4">Number of Members Attending</label>
           <input
             type="number"
@@ -58,6 +58,7 @@ defmodule BabyshowerWeb.RSVPFill.Components do
   attr :show_gender_q?, :boolean
   attr :family_vote, :boolean
   attr :response_data, ResponseData
+  attr :number_of_votes, :integer
 
   def render_gender_vote_form(assigns) do
 
@@ -105,7 +106,7 @@ defmodule BabyshowerWeb.RSVPFill.Components do
         <.render_family_vote_form family_vote={@family_vote} gender_guess={@response_data.gender_guesses[0]["gender_guess"]} />
       </div>
       <div :if={@family_vote == false}>
-        <.render_individual_vote_form number_of_votes={@response_data.number_of_votes} gender_guesses={@response_data.gender_guesses}/>
+        <.render_individual_vote_form number_of_votes={@number_of_votes} gender_guesses={@response_data.gender_guesses}/>
       </div>
     </div>
     """
@@ -175,6 +176,7 @@ defmodule BabyshowerWeb.RSVPFill.Components do
     </form>
 
     <button
+      :if={@number_of_votes <= 10}
       phx-click="add_vote"
       class="mt-4 mx-auto flex items-center justify-center w-14 h-14 rounded-full bg-[#1E90FF] hover:bg-[#FF69B4] shadow-lg transition-all duration-300 hover:scale-110"
       aria-label="Add Vote">
@@ -232,6 +234,22 @@ defmodule BabyshowerWeb.RSVPFill.Components do
             Girl
           </div>
         </.binary_input_component>
+    </div>
+    """
+  end
+
+  def render_confirm_button(assigns) do
+    # Show if guests are attending, number of members attending is set, and gender is voted for OR guests are not attending
+    ~H"""
+    <div class="mt-6 flex justify-center">
+      <button
+        phx-click="save-rsvp"
+        class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-md text-white bg-[#1E90FF] hover:bg-[#FF69B4] active:bg-[#FF69B4] transition-all duration-300" >
+        Confirm RSVP
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+      </button>
     </div>
     """
   end
