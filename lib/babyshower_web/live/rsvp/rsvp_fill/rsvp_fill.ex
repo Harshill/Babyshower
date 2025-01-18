@@ -37,7 +37,7 @@ defmodule BabyshowerWeb.RsvpFill do
       <div class="p-4"> <!-- Changed to p-4 for consistent outer padding -->
         <div class="cartoon-card rounded-2xl"> <!-- Added rounded-2xl -->
           <div class="p-4"> <!-- Added inner padding container -->
-            <.back_link> Re-enter Phone Number </.back_link>
+            <.back_link path={~p"/"}> Re-enter Phone Number </.back_link>
             <h1 class="rsvp-header text-center mb-4 mt-4">Welcome</h1>
             <div class="cartoon-text text-4xl text-center">
               {@guest.first_name <> " " <> @guest.last_name} and Family!

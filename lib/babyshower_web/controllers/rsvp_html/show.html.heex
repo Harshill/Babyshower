@@ -3,49 +3,12 @@
         <div class="p-4">
             <div class="flex justify-between">
                 <%= if @edit === "true" do %>
-                    <.link
-                    navigate={~p"/guests"}
-                    class="inline-flex items-center px-3 py-1.5 text-xs rounded-lg bg-white border-2 border-[#FF69B4]/50 text-[#FF69B4] hover:bg-pink-50 transition-all duration-200 cartoon-text"
-                    >
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                        </svg>
-                        Back to Guests
-                    </.link>
-
-                    <.link :if={@current_user.role == "admin"}
-                        navigate={~p"/guests/#{@guest.phone_number}/edit"}
-                        class="inline-flex items-center px-3 py-1.5 text-xs rounded-lg bg-white border-2 border-[#1E90FF]/50 text-[#FF69B4] hover:bg-pink-50 transition-all duration-200 cartoon-text"
-                    >
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 20h9" />
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16.5 3.5a2.121 2.121 0 113 3L7 19.5 3 21l1.5-4L16.5 3.5z" />
-                        </svg>
-                        Edit Guest
-                    </.link>
+                    <BabyshowerWeb.UIComponents.back_link path={~p"/guests"}> Back to Home </BabyshowerWeb.UIComponents.back_link>
+                    <BabyshowerWeb.UIComponents.edit_link path={~p"/guests/#{@guest.phone_number}/edit"}> Edit Response </BabyshowerWeb.UIComponents.edit_link>
                 <% else %>
-                    <.link
-                        navigate={~p"/"}
-                        class="inline-flex items-center px-3 py-1.5 text-xs rounded-lg bg-white border-2 border-[#FF69B4]/50 text-[#FF69B4] hover:bg-pink-50 transition-all duration-200 cartoon-text"
-                    >
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                        </svg>
-                        Back to Home
-                    </.link>
-                
-                    <.link
-                        navigate={~p"/rsvp/#{@guest.phone_number}/fill"}
-                        class="inline-flex items-center px-3 py-1.5 text-xs rounded-lg bg-white border-2 border-[#1E90FF]/50 text-[#FF69B4] hover:bg-pink-50 transition-all duration-200 cartoon-text"
-                    >
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 20h9" />
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16.5 3.5a2.121 2.121 0 113 3L7 19.5 3 21l1.5-4L16.5 3.5z" />
-                        </svg>
-                        Edit Response
-                    </.link>
+                    <BabyshowerWeb.UIComponents.back_link path={~p"/"}> Back to Home </BabyshowerWeb.UIComponents.back_link>
+                    <BabyshowerWeb.UIComponents.edit_link path={~p"/rsvp/#{@guest.phone_number}/fill"}> Edit Response </BabyshowerWeb.UIComponents.edit_link>
                 <% end %>
-
             </div> 
 
             <.header :if={@guest.response == nil} class="rsvp-header mt-4 text-center ">
@@ -81,34 +44,17 @@
                     
                     <div class="cartoon-info-card p-6 text-center">
                         <div :if={@guest.response.invite_accepted === true} class="text-green-500 text-xl font-bold flex items-center justify-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 100 100">
-                                <!-- Circle background -->
-                                <circle cx="50" cy="50" r="46" fill="#4CAF50" />
-                                
-                                <!-- White checkmark -->
-                                <path 
-                                  d="M30 50 L45 65 L70 35" 
-                                  stroke="white" 
-                                  stroke-width="8" 
-                                  stroke-linecap="round" 
-                                  stroke-linejoin="round"
-                                  fill="none"
-                                />
-                              </svg>
+                            <BabyshowerWeb.Icons.attending_check_mark/>
                             Attending
                         </div>
                         
                         <div :if={@guest.response.invite_accepted === false and @family_guess != nil} class={["text-xl font-bold flex items-center justify-center gap-2 text-xl", @family_guess.gender_guess == "boy" && "name-eshangi",  @family_guess.gender_guess == "girl" && "name-harshil"]}>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                            </svg>
+                            <BabyshowerWeb.Icons.declined_cross/>
                             Unable to attend
                         </div>
 
                         <div :if={@guest.response.invite_accepted === false and @family_guess == nil} class={["text-xl font-bold flex items-center justify-center gap-2 text-xl text-pink-900/80"]}>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                            </svg>
+                            <BabyshowerWeb.Icons.declined_cross/>
                             Unable to attend
                         </div>
 

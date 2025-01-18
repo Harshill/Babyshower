@@ -84,11 +84,12 @@ defmodule BabyshowerWeb.UIComponents do
     """
   end
 
+  attr :path, :string
   slot :inner_block, required: true
 
   def back_link(assigns) do
     ~H"""
-      <.link navigate={~p"/"}
+      <.link navigate={@path}
         class="inline-flex items-center px-3 py-1.5 text-xs rounded-lg bg-white border-2 border-[#FF69B4]/50 text-[#FF69B4] hover:bg-pink-50 transition-all duration-200 cartoon-text"
       >
         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -96,6 +97,24 @@ defmodule BabyshowerWeb.UIComponents do
         </svg>
         {render_slot(@inner_block)}
       </.link>
+    """
+  end
+
+  attr :path, :string
+  slot :inner_block, required: true
+
+  def edit_link(assigns) do
+    ~H"""
+    <.link
+        navigate={@path}
+        class="inline-flex items-center px-3 py-1.5 text-xs rounded-lg bg-white border-2 border-[#1E90FF]/50 text-[#FF69B4] hover:bg-pink-50 transition-all duration-200 cartoon-text"
+    >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 20h9" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16.5 3.5a2.121 2.121 0 113 3L7 19.5 3 21l1.5-4L16.5 3.5z" />
+        </svg>
+        {render_slot(@inner_block)}
+    </.link>
     """
   end
 end

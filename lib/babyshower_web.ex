@@ -45,6 +45,8 @@ defmodule BabyshowerWeb do
       use Gettext, backend: BabyshowerWeb.Gettext
 
       import Plug.Conn
+      import BabyshowerWeb.UIComponents
+      import BabyshowerWeb.Icons
 
       unquote(verified_routes())
     end
@@ -57,6 +59,7 @@ defmodule BabyshowerWeb do
 
       import BabyshowerWeb.SocketHelpers
       import BabyshowerWeb.UIComponents
+      import BabyshowerWeb.Icons
 
       unquote(html_helpers())
     end
