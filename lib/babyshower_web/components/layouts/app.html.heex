@@ -85,7 +85,7 @@
               <path d="M25 35h50M35 15v10M65 15v10" fill="none" stroke="#FF69B4" stroke-width="4"/>
               <text x="50" y="58" font-family="Arial" font-size="32" fill="#FF69B4" text-anchor="middle" dominant-baseline="middle">16</text>
             </svg>
-            <span>{@event_date}</span>
+            <span>{@event_info.date}</span>
           </div>
           <div class="cartoon-detail2 flex items-center gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 100 100">
@@ -93,7 +93,7 @@
               <circle cx="50" cy="50" r="30" fill="none" stroke="#FF69B4" stroke-width="4"/>
               <path d="M50 35v15l10 10" fill="none" stroke="#FF69B4" stroke-width="4" stroke-linecap="round"/>
             </svg>
-            <span class="name-harshil" >{@event_time}</span>
+            <span class="name-harshil" >{@event_info.time}</span>
           </div>
           <div class="cartoon-detail2 flex items-center gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 100 100">
@@ -101,7 +101,7 @@
               <path d="M50 15c-12 0-22 10-22 22 0 16 22 40 22 40s22-24 22-40c0-12-10-22-22-22zm0 30c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8z" 
                     fill="#FF69B4"/>
             </svg>
-            <span>{@event_location}</span>
+            <span>{@event_info.location}</span>
           </div>
           </div>
       </div>

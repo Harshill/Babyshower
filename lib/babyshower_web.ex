@@ -56,6 +56,7 @@ defmodule BabyshowerWeb do
         layout: {BabyshowerWeb.Layouts, :app}
 
       import BabyshowerWeb.SocketHelpers
+      import BabyshowerWeb.UIComponents
 
       unquote(html_helpers())
     end

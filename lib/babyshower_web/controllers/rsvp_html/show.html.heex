@@ -66,13 +66,13 @@
                 <div :if={@guest.response.invite_accepted} class="bg-sky-100/80 rounded-3xl py-2 cartoon-text text-center text-lg">
                     See you on
                     <div class="name-harshil font-semibold">
-                        <%= @event_date %>
+                        <%= @event_info.date %>
                     </div>
                     <div class="name-eshangi font-semibold">
-                        <%= @event_time %>
+                        <%= @event_info.time %>
                     </div>
                     <div class="name-harshil font-semibold">
-                        <%= @event_location %>
+                        <%= @event_info.location %>
                     </div>
                 </div>
 

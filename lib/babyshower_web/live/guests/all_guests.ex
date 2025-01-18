@@ -49,33 +49,33 @@ defmodule BabyshowerWeb.AllGuests do
   attr :phx_click, :string
   slot :inner_block, required: true
 
-  def binary_input_component(assigns) do
-    selection_classes = %{
-      selected: "bg-[#1E90FF] text-white font-bold shadow-md transform scale-105",
-      unselected: "bg-white border-2 border-gray-200 text-gray-700 hover:border-[#87CEEB]",
-    }
+  # def binary_input_component(assigns) do
+  #   selection_classes = %{
+  #     selected: "bg-[#1E90FF] text-white font-bold shadow-md transform scale-105",
+  #     unselected: "bg-white border-2 border-gray-200 text-gray-700 hover:border-[#87CEEB]",
+  #   }
 
-    assigns = assigns |> assign(selection_classes: selection_classes)
+  #   assigns = assigns |> assign(selection_classes: selection_classes)
 
-    ~H"""
-      <input
-        id={@input_id}
-        name={@radio_name}
-        phx-click={@phx_click}
-        phx-value-side={@radio_name}
-        type="radio"
-        class="hidden"
-      />
-      <label class={[
-        cond do
-          @status -> @selection_classes.selected
-          true -> @selection_classes.unselected
-        end,
-        "cartoon-detail rounded-lg px-6 py-3 font-medium cursor-pointer transition-all duration-200"
-      ]}
-      for={@input_id}>{render_slot(@inner_block)}</label>
-    """
-  end
+  #   ~H"""
+  #     <input
+  #       id={@input_id}
+  #       name={@radio_name}
+  #       phx-click={@phx_click}
+  #       phx-value-side={@radio_name}
+  #       type="radio"
+  #       class="hidden"
+  #     />
+  #     <label class={[
+  #       cond do
+  #         @status -> @selection_classes.selected
+  #         true -> @selection_classes.unselected
+  #       end,
+  #       "cartoon-detail rounded-lg px-6 py-3 font-medium cursor-pointer transition-all duration-200"
+  #     ]}
+  #     for={@input_id}>{render_slot(@inner_block)}</label>
+  #   """
+  # end
 
   def render(assigns) do
     ~H"""

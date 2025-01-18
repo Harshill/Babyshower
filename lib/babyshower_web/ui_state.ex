@@ -12,9 +12,14 @@ defmodule BabyshowerWeb.RsvpFormState do
 
 
   def accepted_response_answered(state, accepted_response) do
-    case accepted_response do
+    state = case accepted_response do
       true ->  %{state | show_n_members_q?: true}
       false -> %{state | show_n_members_q?: false, show_gender_q?: true}
+    end
+
+    case state.gender_answered? do
+      true -> %{state | show_confirm_button?: true}
+      _ -> state
     end
   end
 
@@ -83,8 +88,6 @@ defmodule BabyshowerWeb.RsvpFormState do
     |> Enum.filter(
       fn x -> x["first_name"] != "family" and (x["gender_guess"] == nil or bad_first_name(x["first_name"])) end)
 
-
-    IO.inspect(nil_responses)
     case length(nil_responses) do
       0 -> %{state | show_confirm_button?: true}
       _ -> %{state | show_confirm_button?: false}

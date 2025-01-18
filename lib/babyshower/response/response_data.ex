@@ -32,6 +32,15 @@ defmodule Babyshower.Invitation.ResponseData do
     |> validate_format(:first_name, ~r/\A[^ ]+\z/, message: "cannot only conatain letters")
   end
 
+  def handle_answer(response_data, value) do
+    set_response = case value do
+      "yes" -> true
+      "no" -> false
+    end
+
+    %{response_data | invite_accepted: set_response}
+  end
+
   def remove_specific_vote(response_data, iter) do
     gender_guesses = response_data.gender_guesses
     iter = String.to_integer(iter)
@@ -42,6 +51,36 @@ defmodule Babyshower.Invitation.ResponseData do
                     |> Enum.with_index()
                     |> Enum.map(fn {v, k} -> {k, v} end)
                     |> Map.new()
+
+    %{response_data | gender_guesses: gender_guesses}
+  end
+
+  def get_family_member_response(response_data, iter) do
+    family_member_response = response_data.gender_guesses[iter]
+
+    case family_member_response do
+      nil -> %{"first_name" => nil, "gender_guess" => nil}
+      _ -> family_member_response
+    end
+  end
+
+  def update_family_member_name(response_data, iter, first_name) do
+    # Get existing or new family member response
+    family_member_response = get_family_member_response(response_data, iter)
+                             |> Map.put("first_name", first_name)
+
+    # Update gender_guesses map with updated family member guess
+    gender_guesses = Map.put(response_data.gender_guesses, iter, family_member_response)
+
+    # Update response_data with new gender_guesses
+    %{response_data | gender_guesses: gender_guesses}
+  end
+
+  def update_gender_guess(response_data, iter, gender_guess) do
+    family_member_response = get_family_member_response(response_data, iter)
+                             |> Map.put("gender_guess", gender_guess)
+
+    gender_guesses = Map.put(response_data.gender_guesses, iter, family_member_response)
 
     %{response_data | gender_guesses: gender_guesses}
   end

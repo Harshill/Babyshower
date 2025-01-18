@@ -15,11 +15,11 @@ defmodule Babyshower.EventInfo do
     12 => "December"
   }
 
-  def event_location do
+  def event_location() do
     "4001 Stough Rd, Concord, NC 28027"
   end
 
-  def event_datetime do
+  def event_datetime() do
     Timex.to_datetime({{2025, 3, 16}, {10, 0, 0}}, "America/New_York")
   end
 
@@ -38,7 +38,7 @@ defmodule Babyshower.EventInfo do
     end
   end
 
-  def event_date do
+  def event_date() do
     date = event_datetime()
     year = date.year
     month = Map.get(@month_map, date.month)
