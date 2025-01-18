@@ -83,14 +83,32 @@ defmodule BabyshowerWeb.RsvpSearch do
     |> noreply()
   end
 
-  def handle_event("search-rsvp", %{"RsvpSearch" => %{"phone_number" => phone_number}}, socket) do
-    case Guestlist.get_guest_by_phone_number(phone_number) do
+  def handle_event("search-rsvp", %{"RsvpSearch" => rsvp_search_params}, socket) do
+    %{"phone_number" => phone_number} = rsvp_search_params
+
+    # check the length of phone number make a case statement for if length is less than 12
+    guest = case String.length(phone_number) do
+      12 -> Guestlist.get_guest_by_phone_number(phone_number)
+      _ -> %{short: true}
+    end
+
+    case guest do
       nil -> handle_guest_not_found(socket, phone_number)
+      %{short: true} -> handle_short_phone_number(socket, phone_number)
       guest -> navigate_to_guest(socket, guest)
     end
   end
 
-  def handle_guest_not_found(phone_number, socket) do
+  @spec handle_short_phone_number(any(), any()) :: {:noreply, any()}
+  def handle_short_phone_number(socket, phone_number) do
+    phone_number_changeset = Search.short_phone_number_changeset(phone_number)
+
+    socket
+    |> assign(form: Search.phone_number_form(phone_number_changeset))
+    |> noreply()
+  end
+
+  def handle_guest_not_found(socket, phone_number) do
     changeset = Search.phone_number_not_found_changeset(phone_number)
 
     socket

@@ -47,6 +47,7 @@ defmodule BabyshowerWeb.RSVPFill.Components do
             max="20"
             class="mt-1 block w-24 mx-auto rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
             phx-debounce="500"
+            phx-hook="PreventLetters"
           >
           <div :if={@n_members_error} class="text-red-500 text-sm"> {@error_message} </div>
         </form>

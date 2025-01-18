@@ -18,6 +18,13 @@ defmodule Babyshower.Search do
       |> Map.put(:action, :validate)
   end
 
+  def short_phone_number_changeset(phone_number) do
+
+    %{phone_number: phone_number}
+      |> phone_number_changeset()
+      |> Map.put(:action, :validate)
+  end
+
   @spec phone_number_form(any()) :: map()
   def phone_number_form(phone_number_changeset) do
     FormData.to_form(phone_number_changeset, as: "RsvpSearch", id: "rsvp-search", errors: ["Error"])

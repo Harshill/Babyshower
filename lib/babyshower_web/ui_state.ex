@@ -10,7 +10,7 @@ defmodule BabyshowerWeb.RsvpFormState do
             n_member_votes: 1,
             gender_answered?: false
 
-
+  @allowed_n_members 1..10 |> Enum.map(&(Integer.to_string(&1)))
   def accepted_response_answered(state, accepted_response) do
     state = case accepted_response do
       true ->  %{state | show_n_members_q?: true}
@@ -32,11 +32,14 @@ defmodule BabyshowerWeb.RsvpFormState do
     end
   end
 
+  @spec check_n_members(any()) ::
+          {:ok} | {:blank_error, <<_::288>>} | {:invalid_error, <<_::128, _::_*16>>}
   def check_n_members("") do
-    {:blank_error, "Please enter a number greater than 0"}
+    {:blank_error, "Please enter a number"}
   end
 
-  def check_n_members(n_members) do
+  def check_n_members(n_members) when n_members in @allowed_n_members do
+
     n_members = String.to_integer(n_members)
 
     case n_members <= 0 do
@@ -45,6 +48,14 @@ defmodule BabyshowerWeb.RsvpFormState do
     end
   end
 
+  def check_n_members(n_members) when n_members not in @allowed_n_members do
+    {:invalid_error, "Please enter a number between 1 and 10"}
+  end
+
+  @spec gender_answered(
+          %{:gender_answered? => any(), :show_confirm_button? => any(), optional(any()) => any()},
+          any()
+        ) :: %{:gender_answered? => true, :show_confirm_button? => true, optional(any()) => any()}
   def gender_answered(state, _gender_chosen) do
     %{state | show_confirm_button?: true, gender_answered?: true}
   end

@@ -22,9 +22,11 @@ import {Socket} from "phoenix"
 import {LiveSocket} from "phoenix_live_view"
 import topbar from "../vendor/topbar"
 import FormatPhoneNumberOnInput from "./hooks/FormatPhoneNumber"
+import PreventLetters from "./hooks/PreventLetters"
 
 const hooks = {
-  FormatPhoneNumberOnInput
+  FormatPhoneNumberOnInput,
+  PreventLetters
 }
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
