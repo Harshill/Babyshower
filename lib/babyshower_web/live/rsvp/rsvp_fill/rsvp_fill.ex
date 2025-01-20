@@ -137,51 +137,49 @@ defmodule BabyshowerWeb.RsvpFill do
   end
 
   def handle_event("responded_name", params, socket) do
-    target = params["_target"] |> List.first()
-    iter = target |> String.split("-") |> List.last() |> String.to_integer()
-    first_name = params[target]
+    with target <- List.first(params["_target"]),
+         iter <- target |> String.split("-") |> List.last() |> String.to_integer(),
+         first_name <- params[target] do
 
-    response_data = socket.assigns.response_data
-                    |> ResponseData.update_family_member_name(iter, first_name)
-    rsvp_form_state = socket.assigns.rsvp_form_state
-                      |> RsvpFormState.answered_name(response_data)
+      response_data =
+        socket.assigns.response_data
+        |> ResponseData.update_family_member_name(iter, first_name)
 
-    socket
-    |> assign(response_data: response_data)
-    |> assign(rsvp_form_state: rsvp_form_state)
-    |> noreply()
+      rsvp_form_state =
+        socket.assigns.rsvp_form_state
+        |> RsvpFormState.answered_name(response_data)
+
+      update_response_and_form_state(socket, response_data, rsvp_form_state)
+    end
   end
 
   def handle_event("remove_vote", %{"iter" => iter}, socket) do
+    response_data =
+      socket.assigns.response_data
+      |> ResponseData.remove_specific_vote(iter)
 
-    response_data = socket.assigns.response_data
-                    |> ResponseData.remove_specific_vote(iter)
+    rsvp_form_state =
+      socket.assigns.rsvp_form_state
+      |> HandleGenderForm.handle_remove_vote()
+      |> RsvpFormState.answered_name(response_data)
 
-    rsvp_form_state = socket.assigns.rsvp_form_state
-                      |> HandleGenderForm.handle_remove_vote()
-                      |> RsvpFormState.answered_name(response_data)
-
-    socket
-    |> assign(response_data: response_data)
-    |> assign(rsvp_form_state: rsvp_form_state)
-    |> noreply()
+    update_response_and_form_state(socket, response_data, rsvp_form_state)
   end
 
   def handle_event("add_vote", _params, socket) do
-
     rsvp_form_state = HandleGenderForm.handle_add_vote(socket.assigns.rsvp_form_state)
-    # individual_gender_votes = Map.put(socket.assigns.response_data.gender_guesses, number_of_votes, %{"first_name" => nil, "gender_guess" => nil})
 
-    socket
-    |> assign(rsvp_form_state: rsvp_form_state)
-    |> noreply()
+    update_socket(socket, %{
+      rsvp_form_state: rsvp_form_state
+    })
   end
 
   def handle_event("toggle-individual-vote", _params, socket) do
-    IO.inspect(socket.assigns.response_data)
-    socket
-    |> assign(rsvp_form_state: HandleGenderForm.handle_family_vote(socket.assigns.rsvp_form_state))
-    |> noreply()
+    rsvp_form_state = HandleGenderForm.handle_family_vote(socket.assigns.rsvp_form_state)
+
+    update_socket(socket, %{
+      rsvp_form_state: rsvp_form_state
+    })
   end
 
   def handle_event("save-rsvp", _params, socket) do
@@ -191,6 +189,14 @@ defmodule BabyshowerWeb.RsvpFill do
       guest: guest
     } = socket.assigns
 
+    guest_response = build_guest_response(response_data, rsvp_form_state)
+
+    guest
+    |> save_or_update_response(guest_response)
+    |> handle_save_result(socket, guest)
+  end
+
+  defp build_guest_response(response_data, rsvp_form_state) do
     processed_guesses = ResponseResults.process_gender_guesses(
       response_data.gender_guesses,
       rsvp_form_state
@@ -198,19 +204,24 @@ defmodule BabyshowerWeb.RsvpFill do
 
     n_members = ResponseResults.calculate_members_accepted(response_data)
 
-    guest_response = %{
+    %{
       invite_accepted: response_data.invite_accepted,
       n_members_accepted: n_members,
       gender_guesses: processed_guesses
-      }
+    }
+  end
 
-    result = case guest.response do
+  defp save_or_update_response(guest, guest_response) do
+    case guest.response do
       nil -> ResponseResults.save_response(guest, guest_response)
       _ -> ResponseResults.update_response(guest, guest_response)
     end
+  end
 
+  defp handle_save_result(result, socket, guest) do
     case result do
-      {:ok, _response} -> socket
+      {:ok, _response} ->
+        socket
         |> put_flash(:info, "You have RSVPd successfully!")
         |> push_navigate(to: "/rsvp/#{guest.phone_number}/show")
         |> noreply()
@@ -221,4 +232,18 @@ defmodule BabyshowerWeb.RsvpFill do
         |> noreply()
     end
   end
+
+  defp update_socket(socket, assigns) do
+    socket
+    |> assign(assigns)
+    |> noreply()
+  end
+
+  defp update_response_and_form_state(socket, response_data, rsvp_form_state) do
+    update_socket(socket, %{
+      response_data: response_data,
+      rsvp_form_state: rsvp_form_state
+    })
+  end
+
 end
