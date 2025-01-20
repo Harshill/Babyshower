@@ -16,7 +16,7 @@ defmodule Babyshower.EventInfo do
   }
 
   def event_location() do
-    "4001 Stough Rd, Concord, NC 28027"
+    "10213 John Adams Rd, Charlotte NC, 28262"
   end
 
   def event_datetime() do

@@ -29,7 +29,7 @@ defmodule Babyshower.Invitation.ResponseData do
     |> cast(attrs, [:first_name, :gender_guess])
     |> validate_required([:first_name, :gender_guess])
     |> validate_inclusion(:gender_guess, ["girl", "boy"])
-    |> validate_format(:first_name, ~r/\A[^ ]+\z/, message: "cannot only conatain letters")
+    |> validate_format(:first_name, ~r/^[a-zA-Z]+$/, message: "can only contain letters")
   end
 
   def handle_answer(response_data, value) do
@@ -83,5 +83,30 @@ defmodule Babyshower.Invitation.ResponseData do
     gender_guesses = Map.put(response_data.gender_guesses, iter, family_member_response)
 
     %{response_data | gender_guesses: gender_guesses}
+  end
+
+  def is_voted_family([gender_guess | _]) do
+    case gender_guess.first_name do
+      "family" -> true
+      _ -> false
+    end
+  end
+
+  def convert_gender_guesses_to_map(gender_guesses, first_name) do
+    case is_voted_family(gender_guesses) do
+      false -> gender_guesses
+               |> convert_list_to_index_map(1)
+               |> Map.put(0, %{"first_name" => "family", "gender_guess" => nil})
+      true -> gender_guesses
+              |> convert_list_to_index_map(0)
+              |> Map.put(1, %{"first_name" => first_name, "gender_guess" => nil})
+    end
+  end
+
+  def convert_list_to_index_map(list, index_offset \\ 0) do
+    list
+    |> Enum.with_index(index_offset)
+    |> Enum.map(fn {family_response, index} -> %{index => %{"first_name" => family_response.first_name, "gender_guess" => family_response.gender_guess}} end)
+    |> Enum.reduce(fn family_response, acc -> Map.merge(family_response, acc) end)
   end
 end

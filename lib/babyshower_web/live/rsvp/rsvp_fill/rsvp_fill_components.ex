@@ -80,7 +80,7 @@ defmodule BabyshowerWeb.RSVPFill.Components do
           <button
             phx-click="toggle-individual-vote"
             class={[
-              "border-t h-10 w-30 px-4 border-r border-l font-medium text-xs transition-all duration-200",
+              "border-t h-10 w-30 rounded-t-2xl px-4 border-r border-l font-medium text-xs transition-all duration-200",
               "-mb-px",
               @family_vote && "bg-white text-blue-600 z-10",
               !@family_vote && "bg-gray-100 text-gray-500 hover:text-gray-700"
@@ -92,7 +92,7 @@ defmodule BabyshowerWeb.RSVPFill.Components do
           <button
             phx-click="toggle-individual-vote"
             class={[
-              "border-t h-10 w-30 px-4 border-r border-l font-medium text-xs transition-all duration-200",
+              "border-t h-10 w-30 px-4 rounded-t-2xl border-r border-l font-medium text-xs transition-all duration-200",
               "-mb-px",
               @family_vote == false && "bg-white text-blue-600 z-10",
               !@family_vote == false && "bg-gray-100 text-gray-500 hover:text-gray-700"
@@ -125,7 +125,7 @@ defmodule BabyshowerWeb.RSVPFill.Components do
     assigns = assigns |> assign(gender_guess: guess)
 
     ~H"""
-    <form class="flex items-center flex-col sm:flex-row gap-4 justify-center border-b border-l border-r bg-white/80 backdrop-blur-sm shadow-lg p-6">
+    <form class="flex rounded-b-2xl items-center flex-col sm:flex-row gap-4 justify-center border-b border-l border-r bg-white/80 backdrop-blur-sm shadow-lg p-6">
         <p class="text-sm text-gray-600" > You can vote once per family </p>
         <.render_boy_girl_vote gender_guess={@gender_guess} iter={0}/>
     </form>
@@ -138,7 +138,8 @@ defmodule BabyshowerWeb.RSVPFill.Components do
   def render_individual_vote_form(assigns) do
     ~H"""
     <form :for={number <- 1..@number_of_votes} class={["relative flex flex-col gap-2 items-center w-full border-b border-l border-r bg-white/80 backdrop-blur-sm shadow-lg p-6", number != 1 && "mt-4"]}>
-    <p class="text-sm text-gray-600" > More family member can vote! </p>
+    <p :if={number == 1} class="text-sm text-gray-600" > More family members can vote! </p>
+    <p :if={number != 1} class="text-sm text-gray-600" > Enter first name! </p>
       <button :if={number != 1}
           type="button"
           phx-click="remove_vote"
@@ -170,6 +171,7 @@ defmodule BabyshowerWeb.RSVPFill.Components do
               phx-value-iter={number}
               value={@gender_guesses[number]["first_name"]}
               phx-debounce="500"
+              phx-hook="ProperFirstName"
               />
           </div>
           <.render_boy_girl_vote gender_guess={@gender_guesses[number]["gender_guess"]} iter={number}/>

@@ -11,25 +11,37 @@ defmodule BabyshowerWeb.RsvpFormState do
             gender_answered?: false
 
   @allowed_n_members 1..10 |> Enum.map(&(Integer.to_string(&1)))
-  def accepted_response_answered(state, accepted_response) do
+  def accepted_response_answered(state, accepted_response, n_members_accepted) do
     state = case accepted_response do
       true ->  %{state | show_n_members_q?: true}
       false -> %{state | show_n_members_q?: false, show_gender_q?: true}
     end
 
-    case state.gender_answered? do
-      true -> %{state | show_confirm_button?: true}
+    state = case state.gender_answered? do
+      true -> case n_members_accepted do
+                nil -> %{state | show_confirm_button?: false, show_gender_q?: false}
+                _ -> %{state | show_confirm_button?: true}
+              end
       _ -> state
     end
+
+    state
   end
 
   # TODO if someone votes for gender,
   def n_members_answered(state, n_members) do
-    case check_n_members(n_members) do
+    state = case check_n_members(n_members) do
       {:blank_error, error_message} -> %{state | show_n_members_error?: true, error_message: error_message, show_gender_q?: false, show_confirm_button?: false}
       {:invalid_error, error_message} -> %{state | show_n_members_error?: true, error_message: error_message,  show_gender_q?: false, show_confirm_button?: false}
       {:ok} -> %{state | show_gender_q?: true, show_n_members_error?: false}
     end
+
+    state = case state.gender_answered? do
+      true -> %{state | show_confirm_button?: true}
+      false -> state
+    end
+
+    state
   end
 
   @spec check_n_members(any()) ::

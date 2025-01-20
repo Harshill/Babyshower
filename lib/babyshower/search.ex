@@ -1,6 +1,6 @@
 defmodule Babyshower.Search do
   alias Babyshower.Invitation.Phonenumber
-  alias Phoenix.HTML.FormData
+  alias Phoenix.Component
 
   # Changeset for phone number
   @spec phone_number_changeset(map) :: any()
@@ -27,7 +27,7 @@ defmodule Babyshower.Search do
 
   @spec phone_number_form(any()) :: map()
   def phone_number_form(phone_number_changeset) do
-    FormData.to_form(phone_number_changeset, as: "RsvpSearch", id: "rsvp-search", errors: ["Error"])
+    Component.to_form(phone_number_changeset, as: "RsvpSearch", id: "rsvp-search", errors: ["Error"])
   end
 
 end
