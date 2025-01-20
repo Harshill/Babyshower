@@ -1,6 +1,6 @@
 # TODO if someone votes for gender,
 defmodule BabyshowerWeb.ProcessMemberNumber do
-  @allowed_n_members ~w(1 2 3 4 5 6 7 8 9 10)
+  @allowed_n_members 1..10 |> Enum.map(&(Integer.to_string(&1)))
 
   @type validation_result ::
     {:ok} |

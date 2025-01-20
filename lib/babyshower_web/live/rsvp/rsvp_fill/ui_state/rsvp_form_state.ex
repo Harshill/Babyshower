@@ -15,8 +15,6 @@ defmodule BabyshowerWeb.RsvpFormState do
             n_member_votes: 1,
             gender_answered?: false
 
-  @allowed_n_members 1..10 |> Enum.map(&(Integer.to_string(&1)))
-
   def accepted_response_answered(state, accepted_response, n_members_accepted) do
     process_acceptance(state, accepted_response, n_members_accepted)
   end

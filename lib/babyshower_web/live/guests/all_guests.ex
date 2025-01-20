@@ -2,7 +2,6 @@ defmodule BabyshowerWeb.AllGuests do
   use BabyshowerWeb, :live_view
 
   import BabyshowerWeb.GuestComponent
-  alias BabyshowerWeb.UserAuth
 
   alias Babyshower.Guestlist
   alias Babyshower.Invitation.Guest
@@ -76,12 +75,6 @@ defmodule BabyshowerWeb.AllGuests do
   #     for={@input_id}>{render_slot(@inner_block)}</label>
   #   """
   # end
-
-  input_id={"gender-boy-#{@iter}"}
-          radio_name="boy"
-          status={@gender_guess === "boy"}
-          iter={@iter}
-          phx_click={"responded_gender"}
 
   def render(assigns) do
     ~H"""

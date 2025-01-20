@@ -1,7 +1,6 @@
 defmodule Babyshower.Guestlist do
   alias Babyshower.Repo
   alias Babyshower.Invitation.Guest
-  alias Babyshower.Invitation.Phonenumber
   alias Babyshower.Accounts.User
 
   import Ecto.Query

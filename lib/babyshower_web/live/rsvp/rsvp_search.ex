@@ -5,7 +5,6 @@ defmodule BabyshowerWeb.RsvpSearch do
 
   alias Babyshower.Guestlist
   alias Babyshower.Search
-  alias Babyshower.Invitation.Phonenumber
   alias Babyshower.EventInfo
 
   def mount(_params, _session, socket) do
