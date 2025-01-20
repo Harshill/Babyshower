@@ -191,6 +191,13 @@ body {
   color: #4A4A4A;
 }
 
+.cartoon-text-error {
+  font-family: 'Nunito', sans-serif;
+  color: #A4243B;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+
 .cartoon-name {
   font-family: 'Bubblegum Sans', cursive;
   color: #89CFF0;

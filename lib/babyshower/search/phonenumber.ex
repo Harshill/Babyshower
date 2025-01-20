@@ -11,7 +11,7 @@ defmodule Babyshower.Invitation.Phonenumber do
     guest
     |> cast(attrs, [:phone_number])
     |> validate_required([:phone_number])
-    |> validate_format(:phone_number, ~r/^\d{3}-\d{3}-\d{4}$/)
+    |> validate_format(:phone_number, ~r/^\d{3}-\d{3}-\d{4}$/, message: "Phone number is too short please enter ten digits")
   end
 
 end

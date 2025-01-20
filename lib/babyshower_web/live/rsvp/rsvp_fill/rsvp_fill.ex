@@ -7,29 +7,72 @@ defmodule BabyshowerWeb.RsvpFill do
   alias Babyshower.ResponseResults
   alias BabyshowerWeb.RsvpFormState
   alias Babyshower.Invitation.ResponseData
-  alias BabyshowerWeb.RsvpFillHelpers
+  alias BabyshowerWeb.HandleGenderForm
 
   # TODO - Right now they can enter Zero as number of guests attending
 # TODO - they can also enter a negative number, and special characters like dashes in the number of guests attending
 
   def mount(%{"phone_number" => phone_number}, _session, socket) do
     guest = Guestlist.get_guest_by_phone_number(phone_number)
-
-    response_data = %ResponseData{
-      invite_accepted: nil,
-      n_members_accepted: nil,
-      gender_guesses: %{0 => %{"first_name" => "family", "gender_guess" => nil}, 1 => %{"first_name" => guest.first_name, "gender_guess" => nil}}
-    }
-
-    rsvp_form_state = %RsvpFormState{}
+    response_data = build_response_data(guest)
+    form_state = build_form_state(guest, response_data)
 
     socket
     |> assign(guest: guest)
     |> assign(app_layout: false)
     |> assign(response_data: response_data)
-    |> assign(rsvp_form_state: rsvp_form_state)
+    |> assign(rsvp_form_state: form_state)
     |> ok()
   end
+
+  defp build_response_data(%{response: nil} = guest) do
+    %ResponseData{
+      invite_accepted: nil,
+      n_members_accepted: nil,
+      gender_guesses: %{
+        0 => %{"first_name" => "family", "gender_guess" => nil},
+        1 => %{"first_name" => guest.first_name, "gender_guess" => nil}
+      }
+    }
+  end
+
+  defp build_response_data(%{response: response, first_name: first_name} = _guest) do
+    n_members_accepted = if response.invite_accepted, do: response.n_members_accepted, else: nil
+    gender_guesses = ResponseData.convert_gender_guesses_to_map(response.gender_guesses, first_name)
+
+    %ResponseData{
+      invite_accepted: response.invite_accepted,
+      n_members_accepted: n_members_accepted,
+      gender_guesses: gender_guesses
+    }
+  end
+
+  defp build_form_state(%{response: nil}, _response_data) do
+    %RsvpFormState{}
+  end
+
+  defp build_form_state(%{response: response}, response_data) do
+    {show_gender_q, show_confirm_button} = get_display_states(response_data.n_members_accepted)
+
+    %RsvpFormState{
+      phone_number_searched: true,
+      show_attending_q?: true,
+      show_n_members_q?: should_show_n_members_q?(response),
+      show_n_members_error?: false,
+      show_gender_q?: show_gender_q,
+      show_confirm_button?: show_confirm_button,
+      error_message: "",
+      family_vote?: ResponseData.is_voted_family(response.gender_guesses),
+      n_member_votes: length(response.gender_guesses),
+      gender_answered?: true
+    }
+  end
+
+  defp should_show_n_members_q?(%{invite_accepted: true}), do: true
+  defp should_show_n_members_q?(_response), do: false
+
+  # defp get_display_states(nil), do: {false, false}
+  defp get_display_states(_), do: {true, true}
 
   def render(assigns) do
     ~H"""
@@ -61,7 +104,7 @@ defmodule BabyshowerWeb.RsvpFill do
   def handle_event("responded_rsvp", %{"guest-response" => value}, socket) do
 
     response_data = ResponseData.handle_answer(socket.assigns.response_data, value)
-    rsvp_form_state = RsvpFormState.accepted_response_answered(socket.assigns.rsvp_form_state, response_data.invite_accepted)
+    rsvp_form_state = RsvpFormState.accepted_response_answered(socket.assigns.rsvp_form_state, response_data.invite_accepted, response_data.n_members_accepted)
 
     socket
     |> assign(response_data: response_data)
@@ -85,10 +128,7 @@ defmodule BabyshowerWeb.RsvpFill do
                     |> ResponseData.update_gender_guess(iter, gender_guess)
 
     rsvp_form_state = socket.assigns.rsvp_form_state
-    rsvp_form_state = case rsvp_form_state.family_vote? do
-      true -> RsvpFormState.gender_answered(rsvp_form_state, gender_guess)
-      false -> RsvpFormState.handle_confirm_button_multi_vote(rsvp_form_state, response_data)
-    end
+    rsvp_form_state = BabyshowerWeb.RsvpFormState.answer_gender(rsvp_form_state, response_data, gender_guess)
 
     socket
     |> assign(response_data: response_data)
@@ -104,7 +144,7 @@ defmodule BabyshowerWeb.RsvpFill do
     response_data = socket.assigns.response_data
                     |> ResponseData.update_family_member_name(iter, first_name)
     rsvp_form_state = socket.assigns.rsvp_form_state
-                      |> RsvpFormState.handle_confirm_button_multi_vote(response_data)
+                      |> RsvpFormState.answered_name(response_data)
 
     socket
     |> assign(response_data: response_data)
@@ -118,8 +158,8 @@ defmodule BabyshowerWeb.RsvpFill do
                     |> ResponseData.remove_specific_vote(iter)
 
     rsvp_form_state = socket.assigns.rsvp_form_state
-                      |> RsvpFormState.handle_remove_vote()
-                      |> RsvpFormState.handle_confirm_button_multi_vote(response_data)
+                      |> HandleGenderForm.handle_remove_vote()
+                      |> RsvpFormState.answered_name(response_data)
 
     socket
     |> assign(response_data: response_data)
@@ -129,7 +169,7 @@ defmodule BabyshowerWeb.RsvpFill do
 
   def handle_event("add_vote", _params, socket) do
 
-    rsvp_form_state = RsvpFormState.handle_add_vote(socket.assigns.rsvp_form_state)
+    rsvp_form_state = HandleGenderForm.handle_add_vote(socket.assigns.rsvp_form_state)
     # individual_gender_votes = Map.put(socket.assigns.response_data.gender_guesses, number_of_votes, %{"first_name" => nil, "gender_guess" => nil})
 
     socket
@@ -138,44 +178,30 @@ defmodule BabyshowerWeb.RsvpFill do
   end
 
   def handle_event("toggle-individual-vote", _params, socket) do
+    IO.inspect(socket.assigns.response_data)
     socket
-    |> assign(rsvp_form_state: RsvpFormState.handle_family_vote(socket.assigns.rsvp_form_state))
+    |> assign(rsvp_form_state: HandleGenderForm.handle_family_vote(socket.assigns.rsvp_form_state))
     |> noreply()
   end
 
   def handle_event("save-rsvp", _params, socket) do
-    response_data = socket.assigns.response_data
-    rsvp_form_state = socket.assigns.rsvp_form_state
+    %{
+      response_data: response_data,
+      rsvp_form_state: rsvp_form_state,
+      guest: guest
+    } = socket.assigns
 
-    guest = socket.assigns.guest
-    family_vote? = rsvp_form_state.family_vote?
+    processed_guesses = ResponseResults.process_gender_guesses(
+      response_data.gender_guesses,
+      rsvp_form_state
+    )
 
-    gender_guesses = response_data.gender_guesses
-
-    gender_guesses = case family_vote? do
-      true ->
-        keys = gender_guesses
-               |> Map.keys()
-               |> Enum.drop_while(fn x -> x == 0 end)
-
-        gender_guesses |> Map.drop(keys)
-
-      false ->
-        keys = gender_guesses
-               |> Map.keys()
-               |> Enum.filter(fn x -> x == 0 or x > rsvp_form_state.n_member_votes end)
-
-        gender_guesses |> Map.drop(keys)
-    end
-
-    n_members_accepted = case response_data.invite_accepted do
-      true -> response_data.n_members_accepted
-      false ->  0
-    end
+    n_members = ResponseResults.calculate_members_accepted(response_data)
 
     guest_response = %{
-      invite_accepted: response_data.invite_accepted, n_members_accepted: n_members_accepted,
-      gender_guesses: gender_guesses
+      invite_accepted: response_data.invite_accepted,
+      n_members_accepted: n_members,
+      gender_guesses: processed_guesses
       }
 
     result = case guest.response do
