@@ -9,9 +9,6 @@ defmodule BabyshowerWeb.RsvpFill do
   alias Babyshower.Invitation.ResponseData
   alias BabyshowerWeb.HandleGenderForm
 
-  # TODO - Right now they can enter Zero as number of guests attending
-# TODO - they can also enter a negative number, and special characters like dashes in the number of guests attending
-
   def mount(%{"phone_number" => phone_number}, _session, socket) do
     guest = Guestlist.get_guest_by_phone_number(phone_number)
     response_data = build_response_data(guest)
@@ -106,19 +103,14 @@ defmodule BabyshowerWeb.RsvpFill do
     response_data = ResponseData.handle_answer(socket.assigns.response_data, value)
     rsvp_form_state = RsvpFormState.accepted_response_answered(socket.assigns.rsvp_form_state, response_data.invite_accepted, response_data.n_members_accepted)
 
-    socket
-    |> assign(response_data: response_data)
-    |> assign(rsvp_form_state: rsvp_form_state)
-    |> noreply()
+    update_response_and_form_state(socket, response_data, rsvp_form_state)
   end
 
   def handle_event("responded-n-members", %{"n_members" => n_members}, socket) do
     rsvp_form_state = RsvpFormState.n_members_answered(socket.assigns.rsvp_form_state, n_members)
+    response_data = %{socket.assigns.response_data | n_members_accepted: n_members}
 
-    socket
-    |> assign(response_data: %{socket.assigns.response_data | n_members_accepted: n_members})
-    |> assign(rsvp_form_state: rsvp_form_state)
-    |> noreply()
+    update_response_and_form_state(socket, response_data, rsvp_form_state)
   end
 
   def handle_event("responded_gender", %{"guest-response" => gender_guess, "iter" => iter}, socket) do
@@ -130,10 +122,7 @@ defmodule BabyshowerWeb.RsvpFill do
     rsvp_form_state = socket.assigns.rsvp_form_state
     rsvp_form_state = BabyshowerWeb.RsvpFormState.answer_gender(rsvp_form_state, response_data, gender_guess)
 
-    socket
-    |> assign(response_data: response_data)
-    |> assign(rsvp_form_state: rsvp_form_state)
-    |> noreply()
+    update_response_and_form_state(socket, response_data, rsvp_form_state)
   end
 
   def handle_event("responded_name", params, socket) do
