@@ -83,11 +83,13 @@
                         <div :if={@family_guess == nil} class="border-2 bg-gray-100/60 cartoon-text text-sm rounded-2xl backdrop-blur-sm shadow-lg mt-6">
                             <div :for={guess <- @guesses} class="group">
                                 <div class="flex items-center gap-4 justify-center p-4 transition-all duration-300 hover:bg-gray-50 rounded-xl">
-                                    <span class="text-lg font-medium text-gray-700">
+                                    <span class="text-lg flex-grow justify-right font-medium text-gray-700">
                                         <%= guess.first_name %> guessed
                                     </span>
-                                    <BabyshowerWeb.Icons.boy_icon :if={guess.gender_guess == "boy"} />
-                                    <BabyshowerWeb.Icons.girl_icon :if={guess.gender_guess == "girl"} />
+                                    <div class="relative w-[20%]">
+                                        <BabyshowerWeb.Icons.boy_icon :if={guess.gender_guess == "boy"} />
+                                        <BabyshowerWeb.Icons.girl_icon :if={guess.gender_guess == "girl"} />
+                                    </div>
                                 </div>
                                 <div class="h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent last:hidden"></div>
                                 <hr/>
