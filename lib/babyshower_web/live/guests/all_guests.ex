@@ -273,7 +273,7 @@ defmodule BabyshowerWeb.AllGuests do
     end
   end
 
-  def handle_event("change-side", %{"side" => side}, socket) do
+  def handle_event("change-side", %{"guest-response" => side}, socket) do
     socket
     |> push_navigate(to: "/guests?side=#{side}")
     |> noreply()

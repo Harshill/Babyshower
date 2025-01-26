@@ -15,8 +15,23 @@ defmodule Babyshower.EventInfo do
     12 => "December"
   }
 
+  def venue_title() do
+    "Luxe Event Venue"
+  end
   def event_location() do
-    "10213 John Adams Rd, Charlotte NC, 28262"
+    "10213 John Adams Rd"
+  end
+
+  def event_city() do
+    "Charlotte"
+  end
+
+  def event_state() do
+    "NC"
+  end
+
+  def event_zip() do
+    "28262"
   end
 
   def event_datetime() do

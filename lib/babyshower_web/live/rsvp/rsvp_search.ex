@@ -12,7 +12,11 @@ defmodule BabyshowerWeb.RsvpSearch do
     event_info = %{
       date: EventInfo.event_date(),
       time: EventInfo.event_time(),
-      location: EventInfo.event_location()
+      location: EventInfo.event_location(),
+      city: EventInfo.event_city(),
+      state: EventInfo.event_state(),
+      zip: EventInfo.event_zip(),
+      venue_title: EventInfo.venue_title()
     }
 
     socket

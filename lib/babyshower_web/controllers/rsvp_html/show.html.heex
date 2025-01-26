@@ -28,14 +28,16 @@
                 
                 <div :if={@guest.response.invite_accepted} class="bg-sky-100/80 rounded-3xl py-2 cartoon-text text-center text-lg">
                     See you on
-                    <div class="name-harshil font-semibold">
+                    <div class="name-eshangi font-semibold">
                         <%= @event_info.date %>
                     </div>
-                    <div class="name-eshangi font-semibold">
+                    <div class="name-harshil font-semibold">
                         <%= @event_info.time %>
                     </div>
-                    <div class="name-harshil font-semibold">
-                        <%= @event_info.location %>
+                    <div class="border border-black/50 opacity-50 m-2" />
+                    <div class="flex flex-col font-semibold">
+                        <p class="name-eshangi"> <%= @event_info.venue_title %> </p>
+                        <p class="name-harshil underline text-base"> <%= "#{@event_info.location}, #{@event_info.city} #{@event_info.state}, #{@event_info.zip}" %> </p>
                     </div>
                 </div>
 
