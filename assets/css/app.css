@@ -168,7 +168,6 @@ body {
 
 .cartoon-title {
   font-family: 'Bubblegum Sans', cursive;
-  font-size: 4.5rem;
   letter-spacing: 0.05em;
   background: linear-gradient(45deg, #FF99CC, #89CFF0);
   -webkit-background-clip: text;

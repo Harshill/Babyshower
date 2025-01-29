@@ -27,7 +27,7 @@
                 </.header>
                 
                 <div :if={@guest.response.invite_accepted} class="bg-sky-100/80 rounded-3xl py-2 cartoon-text text-center text-lg">
-                    See you on
+                    <p class="text-2xl mb-2"> See you on </p>
                     <div class="name-eshangi font-semibold">
                         <%= @event_info.date %>
                     </div>
@@ -38,6 +38,15 @@
                     <div class="flex flex-col font-semibold">
                         <p class="name-eshangi"> <%= @event_info.venue_title %> </p>
                         <p class="name-harshil underline text-base"> <%= "#{@event_info.location}, #{@event_info.city} #{@event_info.state}, #{@event_info.zip}" %> </p>
+                    </div>
+                    <div class="border border-black/50 opacity-50 m-2" />
+                    <div class="flex justify-center gap-2 font-semibold">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#FF69B4]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
+                        </svg>
+                        <span class="text-sm font-medium text-stone-900">
+                            No Boxed Gifts Please
+                        </span>
                     </div>
                 </div>
 
@@ -76,8 +85,8 @@
                         </div>
 
 
-                        <div :if={@family_guess != nil} class="mt-4 cartoon-text flex text-sm items-center justify-center gap-2"> 
-                            You Guessed the Baby to be a 
+                        <div :if={@family_guess != nil} class="mt-4 cartoon-text flex text-sm items-center justify-center gap-1"> 
+                            You guessed the baby to be a 
                             <BabyshowerWeb.Icons.boy_icon :if={@family_guess.gender_guess == "boy"} />
                             <BabyshowerWeb.Icons.girl_icon :if={@family_guess.gender_guess == "girl"} />
                         </div>

@@ -36,7 +36,7 @@ defmodule BabyshowerWeb.RsvpSearch do
 
   def render(assigns) do
     ~H"""
-      <div class="cartoon-card mt-2 p-3">
+      <div class="cartoon-card mt-4 p-3">
           <.render_header />
           <.render_search form={@form} />
       </div>

@@ -59,7 +59,7 @@
       <.flash_group flash={@flash} />
       <div :if={assigns[:app_layout]} class="space-y-12">
         <div class="text-center space-y-">
-          <h1 class="text-5xl cartoon-title"> 
+          <h1 class="md:text-9xl text-7xl cartoon-title"> 
             Oh Baby!
           </h1>
           <div class="cartoon-card md:border-8 overflow-hidden">
@@ -70,13 +70,18 @@
 
         <div class="cartoon-card text-center space-y-4 py-8">
           <p class="text-2xl cartoon-text">Join us in celebrating the parents to be</p>
-          <p class="text-3xl">
-            <span class="name-eshangi">Eshangi</span> <span class="text-xl" > & </span>  <span class="name-harshil">Harshil</span>
+          <p class="text-5xl">
+            <span class="name-eshangi">Eshangi</span> <span class="text-3xl" > & </span>  <span class="name-harshil">Harshil</span>
           </p>
         
         </div>
 
         <div class="cartoon-info-card flex flex-col items-center justify-center gap-2 p-2">
+          <h2 class="cartoon-text text-3xl text-center mb-1 relative">
+            <span class="rsvp-header">
+              Event Info
+            </span>
+          </h2>
           <div class="flex flex-col md:flex-row md:gap-4"> 
             <div class="cartoon-detail2 flex items-center gap-2">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 100 100">
@@ -86,7 +91,7 @@
                 <text x="50" y="58" font-family="Arial" font-size="32" fill="#FF69B4" text-anchor="middle" dominant-baseline="middle">16</text>
               </svg>
               <div class="flex font-semibold">
-                  <p class="name-eshangi"> <%= "#{@event_info.date} -  #{@event_info.time}" %> </p>
+                  <p class="text-[#ee57d2]/90"> <%= "#{@event_info.date} -  #{@event_info.time}" %> </p>
               </div>
             </div>
           </div>
@@ -97,11 +102,19 @@
                     fill="#FF69B4"/>
             </svg>
             <div class="border border-black/50 opacity-50 m-2" />
-              <div class="flex flex-col font-semibold">
-                  <p class="n"> <%= @event_info.venue_title %> </p>
-                  <p class="name-harshil underline text-sm"> <%= "#{@event_info.location}, #{@event_info.city} #{@event_info.state}, #{@event_info.zip}" %> </p>
+              <div class="flex flex-col">
+                  <p class="text-2xl"> <%= @event_info.venue_title %> </p>
+                  <p class="text-[#3babd7]/80 underline text-base"> <%= "#{@event_info.location}, #{@event_info.city} #{@event_info.state}, #{@event_info.zip}" %> </p>
               </div>
-          </div>
+            </div>
+            <div class="cartoon-detail2 flex gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#FF69B4]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
+              </svg>
+              <span class="text-sm font-medium text-stone-900">
+                No Boxed Gifts Please
+              </span>
+            </div>
           </div>
       </div>
       {@inner_content}

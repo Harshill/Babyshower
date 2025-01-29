@@ -35,7 +35,7 @@ defmodule Babyshower.EventInfo do
   end
 
   def event_datetime() do
-    Timex.to_datetime({{2025, 3, 16}, {10, 0, 0}}, "America/New_York")
+    Timex.to_datetime({{2025, 3, 16}, {9, 0, 0}}, "America/New_York")
   end
 
   @spec event_time() :: <<_::64>>
@@ -43,7 +43,7 @@ defmodule Babyshower.EventInfo do
     date = event_datetime()
 
     minute = date.minute |> Integer.to_string |> String.pad_leading(2, "0")
-    hour = date.hour |> Integer.to_string |> String.pad_leading(2, "0")
+    hour = date.hour |> Integer.to_string
 
     # Add AM and PM depending on the hour
     if date.hour < 12 do
