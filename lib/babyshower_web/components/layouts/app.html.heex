@@ -95,18 +95,17 @@
               </div>
             </div>
           </div>
-          <div class="cartoon-detail2 flex items-center">
+          <div class="cartoon-detail2 flex items-center gap-4">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 100 100">
               <circle cx="50" cy="50" r="46" fill="#FFF0F5"/>
               <path d="M50 15c-12 0-22 10-22 22 0 16 22 40 22 40s22-24 22-40c0-12-10-22-22-22zm0 30c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8z" 
                     fill="#FF69B4"/>
             </svg>
-            <div class="border border-black/50 opacity-50 m-2" />
-              <div class="flex flex-col">
-                  <p class="text-2xl"> <%= @event_info.venue_title %> </p>
-                  <p class="text-[#3babd7]/80 underline text-base"> <%= "#{@event_info.location}, #{@event_info.city} #{@event_info.state}, #{@event_info.zip}" %> </p>
-              </div>
-            </div>
+            <div class="flex flex-col">
+                <p class="text-2xl"> <%= @event_info.venue_title %> </p>
+                <p class="text-[#3babd7]/80 underline text-base"> <%= "#{@event_info.location}, #{@event_info.city} #{@event_info.state}, #{@event_info.zip}" %> </p>
+          </div>
+          </div>
             <div class="cartoon-detail2 flex gap-2">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#FF69B4]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />

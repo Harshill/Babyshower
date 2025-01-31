@@ -46,6 +46,13 @@ defmodule BabyshowerWeb.EditGuest do
             </:actions>
           </.simple_form>
         </div>
+        <button class="mt-4 px-6 py-2 bg-red-700 text-white
+                      font-semibold rounded-lg shadow-md hover:bg-red-800
+                      focus:outline-none focus:ring-2 focus:ring-pink-400 focus:ring-opacity-75
+                      transform hover:scale-[1.02] transition-all duration-200 ease-in-out"
+                phx-click="delete_guest">
+          Delete Guest
+        </button>
       </div>
     </div>
     """
@@ -81,5 +88,18 @@ defmodule BabyshowerWeb.EditGuest do
     socket
     |> assign(:form, to_form(changeset, action: :validate))
     |> noreply()
+  end
+
+  def handle_event("delete_guest", _params, socket) do
+    case Guestlist.delete_guest(socket.assigns.guest, socket.assigns.current_user) do
+      {:ok, _guest} ->
+        {:noreply,
+         socket
+         |> put_flash(:info, "Guest deleted successfully")
+         |> redirect(to: ~p"/guests")}
+
+      {:error, _changeset} ->
+        {:noreply, socket}
+    end
   end
 end

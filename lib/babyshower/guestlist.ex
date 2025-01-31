@@ -25,6 +25,13 @@ defmodule Babyshower.Guestlist do
     |> Repo.insert()
   end
 
+  def delete_guest(%Guest{} = guest, %User{role: role}) do
+    case role do
+      "admin" -> Repo.delete(guest)
+      _ -> {:error, "You are not allowed to delete a guest"}
+    end
+  end
+
   def update_guest(%Guest{} = guest, attrs, %User{role: role}) do
     case role do
       "admin" -> update_guest(guest, attrs)
@@ -83,7 +90,7 @@ defmodule Babyshower.Guestlist do
   def get_guests_by_side(side) do
     guests = case side do
       nil -> list_guests()
-      _ -> Repo.all(from g in Guest, where: g.he_side == ^side)
+      _ -> Repo.all(from g in Guest, where: g.he_side == ^side, preload: [:response])
     end
 
     guests
