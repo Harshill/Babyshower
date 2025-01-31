@@ -3,7 +3,7 @@
         <div class="p-4">
             <div class="flex justify-between">
                 <%= if @edit === "true" do %>
-                    <BabyshowerWeb.UIComponents.back_link path={~p"/guests"}> Back to Guests </BabyshowerWeb.UIComponents.back_link>
+                    <BabyshowerWeb.UIComponents.back_link path={~p"/guests?side=#{@side}"}> Back to Guests </BabyshowerWeb.UIComponents.back_link>
                     <BabyshowerWeb.UIComponents.edit_link path={~p"/guests/#{@guest.phone_number}/edit"}> Edit Guest </BabyshowerWeb.UIComponents.edit_link>
                 <% else %>
                     <BabyshowerWeb.UIComponents.back_link path={~p"/"}> Back to Home </BabyshowerWeb.UIComponents.back_link>

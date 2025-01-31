@@ -2,6 +2,7 @@ defmodule Babyshower.Guestlist do
   alias Babyshower.Repo
   alias Babyshower.Invitation.Guest
   alias Babyshower.Accounts.User
+  alias Babyshower.Response.GuestResponse
 
   import Ecto.Query
 
@@ -66,7 +67,15 @@ defmodule Babyshower.Guestlist do
   def list_guests(page) do
     offset = @guest_page_size * (page - 1)
 
-    Repo.all(from g in Guest, limit: @guest_page_size, offset: ^offset, preload: [:response])
+    query = from g in Guest,
+            left_join: r in GuestResponse,
+            on: g.id == r.guest_id,
+            order_by: [desc_nulls_last: r.updated_at, desc: g.updated_at],
+            limit: @guest_page_size,
+            offset: ^offset,
+            preload: [:response]
+
+    Repo.all(query)
   end
 
   def list_guest_by_id(id) do
@@ -84,7 +93,17 @@ defmodule Babyshower.Guestlist do
   def list_guest_by_he_side(page, he_side) do
     offset = @guest_page_size * (page - 1)
     # Also sort by created_at
-    Repo.all(from g in Guest, where: g.he_side == ^he_side, order_by: [desc: g.updated_at], limit: @guest_page_size, offset: ^offset, preload: [:response])
+
+    query = from g in Guest,
+            where: g.he_side == ^he_side,
+            left_join: r in GuestResponse,
+            on: g.id == r.guest_id,
+            order_by: [desc_nulls_last: r.updated_at, desc: g.updated_at],
+            limit: @guest_page_size,
+            offset: ^offset,
+            preload: [:response]
+
+    Repo.all(query)
   end
 
   def get_guests_by_side(side) do
