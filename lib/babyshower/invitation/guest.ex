@@ -29,6 +29,7 @@ defmodule Babyshower.Invitation.Guest do
     |> cast_embed(:invitation, with: &invitation_changeset/2)
     |> cast_assoc(:response, with: &GuestResponse.changeset/2)
     |> validate_required([:first_name, :last_name, :phone_number, :he_side])
+    |> unique_constraint(:phone_number, message: "phone number has already been added")
   end
 
   def invitation_changeset(invitation, attrs \\ %{}) do

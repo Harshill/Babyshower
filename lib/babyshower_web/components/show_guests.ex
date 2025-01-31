@@ -10,7 +10,7 @@ defmodule BabyshowerWeb.GuestComponent do
     base_path = case assigns.side_selected do
       "Harshil" -> "/guests?side=Harshil"
       "Eshangi" -> "/guests?side=Eshangi"
-      nil -> "/guests?"
+      _ -> "/guests?"
     end
 
     assigns = assigns |> Map.put(:base_path, base_path)

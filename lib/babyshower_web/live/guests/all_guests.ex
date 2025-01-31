@@ -16,15 +16,18 @@ defmodule BabyshowerWeb.AllGuests do
 
     side_selected = case Map.get(params, "side") do
       nil -> nil
+      "" -> nil
       side -> side
     end
 
     page = params |> Map.get("page", "1") |> String.to_integer()
 
-    guests = case Map.get(params, "side") do
+    guests = case side_selected do
       nil -> Guestlist.list_guests(page)
       side -> Guestlist.list_guest_by_he_side(page, side)
     end
+
+    # guests = guests |> Enum.sort_by(&({&1.response, &1.inserted_at}), :desc)
 
     search_type_form = Searchtype.changeset(%Searchtype{}, %{})
     guest_changeset = Guestlist.guest_changeset(%Guest{}, %{})
@@ -83,7 +86,7 @@ defmodule BabyshowerWeb.AllGuests do
 
 
       <.link href={~p"/users/log_out"} method="delete"
-      class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700">
+      class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700 border-2 rounded-3xl bg-white hover:text-red-900 hover:bg-stone-100 p-2">
         Log out
       </.link>
 
@@ -200,12 +203,20 @@ defmodule BabyshowerWeb.AllGuests do
 
 
   def render_guests_table(assigns) do
+
+    side_selected = case assigns.selected_side do
+      nil -> ""
+      _ -> assigns.selected_side
+    end
+
+    assigns = assigns |> assign(selected_side: side_selected)
+
     ~H"""
       <div class="overflow-x-auto mb-10">
         <.table
           id={@id}
           rows={@guest_records}
-          row_click={&JS.navigate(~p"/rsvp/#{&1.phone_number}/show?&edit=true")}
+          row_click={&JS.navigate(~p"/rsvp/#{&1.phone_number}/show?&edit=true&side=#{@selected_side}")}
         >
             <:col :let={guest} label="Name">{guest.first_name <> " " <> guest.last_name}</:col>
             <:col :let={guest} label="Phone Number">{guest.phone_number}</:col>

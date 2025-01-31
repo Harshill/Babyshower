@@ -11,6 +11,8 @@ defmodule BabyshowerWeb.ShowRsvpController do
     phone_number = Map.get(params, "phone_number")
     edit = Map.get(params, "edit")
 
+    side = Map.get(params, "side")
+
     guest = Guestlist.get_guest_by_phone_number(phone_number)
     family_guess = ResponseStats.get_family_guess(guest)
 
@@ -33,6 +35,6 @@ defmodule BabyshowerWeb.ShowRsvpController do
            guest: guest, family_guess:
            family_guess, guesses: guesses,
            app_layout: false, edit: edit,
-           event_info: event_info)
+           event_info: event_info, side: side)
   end
 end
