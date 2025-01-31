@@ -37,7 +37,10 @@
                     <div class="border border-black/50 opacity-50 m-2" />
                     <div class="flex flex-col font-semibold">
                         <p class="name-eshangi"> <%= @event_info.venue_title %> </p>
-                        <p class="name-harshil underline text-base"> <%= "#{@event_info.location}, #{@event_info.city} #{@event_info.state}, #{@event_info.zip}" %> </p>
+                        <a class=""
+                        href="https://maps.apple.com/place?q=Luxe%20Event%20Venue&ll=35.3380678%2C-80.7388351&auid=14071248966051689003&lsp=9902&address=10213%20John%20Adams%20Rd%2C%20Charlotte%2C%20NC%20%2028262%2C%20United%20States">
+                            <p class="text-[#3babd7]/80 underline text-base"> <%= "#{@event_info.location}, #{@event_info.city} #{@event_info.state}, #{@event_info.zip}" %> </p>
+                        </a>
                     </div>
                     <div class="border border-black/50 opacity-50 m-2" />
                     <div class="flex justify-center gap-2 font-semibold">
