@@ -2,18 +2,23 @@ defmodule BabyshowerWeb.RsvpResponsesController do
   use BabyshowerWeb, :controller
   alias Babyshower.ResponseStats
 
-  def show(conn, _params) do
-    # The home page is often custom made,
-    # so skip the default app layout.
-    # get phote number from params
-    n_guests_invited = ResponseStats.count_guests_invited()
-    n_guests_rsvped = ResponseStats.count_guests_rsvped()
-    n_guests_attending = ResponseStats.count_guests_attending()
-    # n_guests_responded_yes = Guestlist.count_guests_who_responded_yes()
-    # n_guests_responded_no = Guestlist.count_guests_who_responded_no()
-    # n_guests_not_responded = Guestlist.count_guests_who_have_not_responded()
+  def show(conn, params) do
+
+    side = Map.get(params, "side")
+
+    n_guests_invited = ResponseStats.count_guests_invited(side)
+    n_guests_rsvped = ResponseStats.count_guests_rsvped(side)
+    n_families_attending = ResponseStats.count_families_attending(side)
+    n_guests_attending = ResponseStats.count_guests_attending(side)
+    gender_guess_counts = ResponseStats.count_gender_guesses(side)
 
     conn
-    |> render(:show, n_guests_invited: n_guests_invited, n_guests_rsvped: n_guests_rsvped, n_guests_attending: n_guests_attending)
+    |> render(:show,
+              n_guests_invited: n_guests_invited,
+              n_guests_rsvped: n_guests_rsvped,
+              n_families_attending: n_families_attending,
+              n_guests_attending: n_guests_attending,
+              gender_guess_counts: gender_guess_counts
+              )
   end
 end

@@ -6,5 +6,7 @@ defmodule BabyshowerWeb.RsvpResponsesHTML do
   """
   use BabyshowerWeb, :html
 
+  alias BabyshowerWeb.ResponseStatsComponents
+
   embed_templates "response_html/*"
 end
