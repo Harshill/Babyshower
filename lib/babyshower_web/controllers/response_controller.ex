@@ -12,13 +12,20 @@ defmodule BabyshowerWeb.RsvpResponsesController do
     n_guests_attending = ResponseStats.count_guests_attending(side)
     gender_guess_counts = ResponseStats.count_gender_guesses(side)
 
+    side = case side do
+      nil -> ""
+      _ -> side
+    end
+
     conn
     |> render(:show,
               n_guests_invited: n_guests_invited,
               n_guests_rsvped: n_guests_rsvped,
               n_families_attending: n_families_attending,
               n_guests_attending: n_guests_attending,
-              gender_guess_counts: gender_guess_counts
+              gender_guess_counts: gender_guess_counts,
+              side: side,
+              app_layout: false
               )
   end
 end

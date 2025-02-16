@@ -3,7 +3,26 @@
     <h1 class="text-3xl font-bold text-center mb-8 bg-gradient-to-r from-pink-500 to-blue-500 bg-clip-text text-transparent">
       RSVP Statistics
     </h1>
+
+    <div class="flex gap-2 m-4">
+
+      <%= case @side do %>
+        <% "" -> %>
+          <BabyshowerWeb.UIComponents.back_link path={~p"/guests"}> Back to Guests </BabyshowerWeb.UIComponents.back_link>
+          <BabyshowerWeb.UIComponents.nav_link path={~p"/rsvp/responses?side=Harshil"} selected={false}> Harshil </BabyshowerWeb.UIComponents.nav_link>
+          <BabyshowerWeb.UIComponents.nav_link path={~p"/rsvp/responses?side=Eshangi"} selected={false}> Eshangi </BabyshowerWeb.UIComponents.nav_link>
+        <% "Harshil" -> %>
+          <BabyshowerWeb.UIComponents.back_link path={~p"/guests?side=#{@side}"}> Back to Guests </BabyshowerWeb.UIComponents.back_link>
+          <BabyshowerWeb.UIComponents.nav_link path={~p"/rsvp/responses"} selected={true}> Harshil </BabyshowerWeb.UIComponents.nav_link>
+          <BabyshowerWeb.UIComponents.nav_link path={~p"/rsvp/responses?side=Eshangi"} selected={false}> Eshangi </BabyshowerWeb.UIComponents.nav_link>
+        <% "Eshangi" -> %>
+          <BabyshowerWeb.UIComponents.back_link path={~p"/guests?side=#{@side}"}> Back to Guests </BabyshowerWeb.UIComponents.back_link>
+          <BabyshowerWeb.UIComponents.nav_link path={~p"/rsvp/responses?side=Harshil"} selected={false}> Harshil </BabyshowerWeb.UIComponents.nav_link>
+          <BabyshowerWeb.UIComponents.nav_link path={~p"/rsvp/responses"} selected={true}> Eshangi </BabyshowerWeb.UIComponents.nav_link>
+      <% end %>
     
+    </div> 
+
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
 

@@ -117,4 +117,23 @@ defmodule BabyshowerWeb.UIComponents do
     </.link>
     """
   end
+
+  attr :path, :string
+  attr :selected, :boolean, required: false
+  slot :inner_block, required: true
+
+  def nav_link(assigns) do
+    ~H"""
+    <.link
+        navigate={@path}
+        class={[
+          "inline-flex items-center px-3 py-1.5 text-xs rounded-lg border-2 transition-all duration-200 cartoon-text",
+          @selected && "bg-sky-200 border-[#1E90FF]/50 text-red-50 font-bold shadow-md transform scale-105",
+          !@selected && "bg-white border-gray-400 text-[#1E90FF]"
+          ]}
+    >
+        {render_slot(@inner_block)}
+    </.link>
+    """
+  end
 end

@@ -50,11 +50,15 @@ defmodule Babyshower.ResponseStats do
   end
 
   def get_gender_guess_counts(guest_responses) do
+
     guest_responses
     |> Enum.flat_map(fn guest -> guest.response.gender_guesses end)
-    |> Enum.frequencies_by(fn guess -> guess.gender_guess end)
+    |> Enum.reduce(%{"boy" => 0, "girl" => 0}, fn individual_response, counts_map ->
+      Map.update(counts_map, individual_response.gender_guess, 1, &(&1 + 1))
+    end)
   end
 
+  @spec count_gender_guesses() :: any()
   def count_gender_guesses(side \\ nil) do
     responded_guests = get_responded_guests(side)
 
