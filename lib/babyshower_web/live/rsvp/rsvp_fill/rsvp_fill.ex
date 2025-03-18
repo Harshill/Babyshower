@@ -87,7 +87,6 @@ defmodule BabyshowerWeb.RsvpFill do
               <div class="cartoon-info-card p-6 bg-[#FFE6F4]">
                 <.render_accept_form accepted_response={@response_data.invite_accepted}/>
                 <.render_n_members_form :if={@rsvp_form_state.show_n_members_q?} n_members_accepted={@response_data.n_members_accepted} n_members_error={@rsvp_form_state.show_n_members_error?} error_message={@rsvp_form_state.error_message}/>
-                <.render_gender_vote_form show_gender_q?={@rsvp_form_state.show_gender_q?} family_vote={@rsvp_form_state.family_vote?} response_data={@response_data} number_of_votes={@rsvp_form_state.n_member_votes}/>
               </div>
               <.render_confirm_button :if={@rsvp_form_state.show_confirm_button?} />
             </div>
@@ -107,9 +106,15 @@ defmodule BabyshowerWeb.RsvpFill do
   end
 
   def handle_event("responded-n-members", %{"n_members" => n_members}, socket) do
+
     rsvp_form_state = RsvpFormState.n_members_answered(socket.assigns.rsvp_form_state, n_members)
     response_data = %{socket.assigns.response_data | n_members_accepted: n_members}
 
+    response_data = response_data
+                    |> ResponseData.update_gender_guess(0, "girl")
+
+    rsvp_form_state = RsvpFormState.answer_gender(rsvp_form_state, response_data, "girl")
+    IO.inspect(response_data)
     update_response_and_form_state(socket, response_data, rsvp_form_state)
   end
 

@@ -19,8 +19,24 @@ defmodule BabyshowerWeb.RsvpFormState do
     process_acceptance(state, accepted_response, n_members_accepted)
   end
 
+  @spec n_members_answered(
+          %{
+            error_message: nil | binary(),
+            gender_answered?: boolean(),
+            show_confirm_button?: boolean(),
+            show_gender_q?: boolean(),
+            show_n_members_error?: boolean()
+          },
+          binary()
+        ) :: %{
+          error_message: nil | <<_::64, _::_*8>>,
+          gender_answered?: boolean(),
+          show_confirm_button?: boolean(),
+          show_gender_q?: boolean(),
+          show_n_members_error?: boolean()
+        }
   def n_members_answered(state, n_members) do
-    process_member_count(state, n_members)
+    state = process_member_count(state, n_members)
   end
 
   def answer_gender(state, response_data, gender_guess) do

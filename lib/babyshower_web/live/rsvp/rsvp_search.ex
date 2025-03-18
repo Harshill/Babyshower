@@ -73,7 +73,7 @@ defmodule BabyshowerWeb.RsvpSearch do
             </.button>
           </:actions>
         </.simple_form>
-        <p class="text-xs text-stone-700/80 mt-2 text-center"> Please RSVP by February 28 </p>
+        <p class="text-xs text-stone-700/80 mt-2 text-center"> Please RSVP by November 2025 </p>
       </div>
     """
   end

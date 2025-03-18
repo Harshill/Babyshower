@@ -16,26 +16,26 @@ defmodule Babyshower.EventInfo do
   }
 
   def venue_title() do
-    "Luxe Event Venue"
+    "Royal Albert Palace"
   end
   def event_location() do
-    "10213 John Adams Rd"
+    "1050 King George Post Rd"
   end
 
   def event_city() do
-    "Charlotte"
+    "Fords"
   end
 
   def event_state() do
-    "NC"
+    "NJ"
   end
 
   def event_zip() do
-    "28262"
+    "08863"
   end
 
   def event_datetime() do
-    Timex.to_datetime({{2025, 3, 16}, {9, 0, 0}}, "America/New_York")
+    Timex.to_datetime({{2026, 3, 7}, {5, 0, 0}}, "America/New_York")
   end
 
   @spec event_time() :: <<_::64>>
@@ -47,7 +47,7 @@ defmodule Babyshower.EventInfo do
 
     # Add AM and PM depending on the hour
     if date.hour < 12 do
-      "#{hour}:#{minute} AM"
+      "#{hour}:#{minute} PM"
     else
       "#{hour}:#{minute} PM"
     end
