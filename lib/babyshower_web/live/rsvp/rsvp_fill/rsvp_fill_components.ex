@@ -67,7 +67,7 @@ defmodule BabyshowerWeb.RSVPFill.Components do
         name="n_members"
         min="0"
         max="20"
-        class="mt-1 block w-24 mx-auto rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+        class="mt-1 block w-24 mx-auto rounded-md border-[#19034e] shadow-sm focus:border-[#3b8f3b] focus:ring-[#3b8f3b]"
         phx-debounce="500"
         phx-hook="PreventLetters"
       >
@@ -201,7 +201,7 @@ defmodule BabyshowerWeb.RSVPFill.Components do
     <div class="mt-6 flex justify-center">
       <button
         phx-click="save-rsvp"
-        class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-md text-white bg-[#1E90FF] hover:bg-[#FF69B4] active:bg-[#FF69B4] transition-all duration-300" >
+        class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-md text-white bg-[#19034e] hover:bg-[#3b8f3b] active:bg-[#FF69B4] transition-all duration-300" >
         Confirm RSVP
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />

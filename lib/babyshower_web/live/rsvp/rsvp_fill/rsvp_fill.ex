@@ -84,7 +84,7 @@ defmodule BabyshowerWeb.RsvpFill do
             </div>
 
             <div class="mt-8 space-y-6">
-              <div class="cartoon-info-card p-6 bg-[#FFE6F4]">
+              <div class="cartoon-info-card p-6">
                 <.render_accept_form accepted_response={@response_data.invite_accepted}/>
                 <.render_n_members_form :if={@rsvp_form_state.show_n_members_q?} n_members_accepted={@response_data.n_members_accepted} n_members_error={@rsvp_form_state.show_n_members_error?} error_message={@rsvp_form_state.error_message}/>
               </div>

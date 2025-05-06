@@ -26,8 +26,8 @@ defmodule BabyshowerWeb.UIComponents do
 
   def binary_input_component(assigns) do
     selection_classes = %{
-      selected: "bg-[#1E90FF] text-white font-bold shadow-md transform scale-105",
-      unselected: "bg-white border-2 border-gray-200 text-gray-700 hover:border-[#87CEEB]",
+      selected: "bg-[#3b8f3b] text-white font-bold shadow-md transform scale-105",
+      unselected: "bg-white border-2 border-gray-200 text-gray-700 hover:border-[#3b8f3b]",
       boy_selected: "bg-[#1E90FF] text-white font-bold shadow-md transform scale-105",
       girl_selected: "bg-[#FF69B4] text-white font-bold shadow-md transform scale-105",
       boy_unselected: "bg-white border-2 border-[#1E90FF] text-[#1E90FF] hover:bg-blue-50",
@@ -63,7 +63,7 @@ defmodule BabyshowerWeb.UIComponents do
 
   def phone_number_icon(assigns) do
     ~H"""
-      <svg class="flex-shrink-0 h-6 w-6 text-pink-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <svg class="flex-shrink-0 h-6 w-6 text-pink-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#197a0c">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
       </svg>
     """
@@ -90,7 +90,7 @@ defmodule BabyshowerWeb.UIComponents do
   def back_link(assigns) do
     ~H"""
       <.link navigate={@path}
-        class="inline-flex items-center px-3 py-1.5 text-xs rounded-lg bg-white border-2 border-[#FF69B4]/50 text-[#FF69B4] hover:bg-pink-50 transition-all duration-200 cartoon-text"
+        class="inline-flex items-center px-3 py-1.5 text-xs rounded-lg bg-white border-2 border-[#3b8f3b] text-[#FF69B4] hover:bg-green-50 transition-all duration-200 cartoon-text"
       >
         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
@@ -107,7 +107,7 @@ defmodule BabyshowerWeb.UIComponents do
     ~H"""
     <.link
         navigate={@path}
-        class="inline-flex items-center px-3 py-1.5 text-xs rounded-lg bg-white border-2 border-[#1E90FF]/50 text-[#FF69B4] hover:bg-pink-50 transition-all duration-200 cartoon-text"
+        class="inline-flex items-center px-3 py-1.5 text-xs rounded-lg bg-white border-2 border-[#3b8f3b] text-[#FF69B4] hover:bg-green-50 transition-all duration-200 cartoon-text"
     >
         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 20h9" />

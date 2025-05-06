@@ -37,11 +37,11 @@
                     <div class="border border-black/50 opacity-50 m-2" />
                     <div class="flex flex-col font-semibold">
                         <p class="name-eshangi"> <%= @event_info.venue_title %> </p>
-                            <p class="text-[#3babd7]/80 underline text-base"> <%= "#{@event_info.location}, #{@event_info.city} #{@event_info.state}, #{@event_info.zip}" %> </p>
+                            <p class="name-harshil underline text-base"> <%= "#{@event_info.location}, #{@event_info.city} #{@event_info.state}, #{@event_info.zip}" %> </p>
                     </div>
                     <div class="border border-black/50 opacity-50 m-2" />
                     <div class="flex justify-center gap-2 font-semibold">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#FF69B4]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#FF69B4]" fill="none" viewBox="0 0 24 24" stroke="#0B0500">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
                         </svg>
                         <span class="text-sm font-medium text-stone-900">
@@ -54,7 +54,7 @@
                     <h3 class="cartoon-text text-center text-lg mb-4">Your Response</h3>
                     
                     <div class="cartoon-info-card p-6 text-center">
-                        <div :if={@guest.response.invite_accepted === true} class="text-green-500 text-xl font-bold flex items-center justify-center gap-2">
+                        <div :if={@guest.response.invite_accepted === true} class="text-[#3b8f3b] text-xl font-bold flex items-center justify-center gap-2">
                             <BabyshowerWeb.Icons.attending_check_mark/>
                             Attending
                         </div>

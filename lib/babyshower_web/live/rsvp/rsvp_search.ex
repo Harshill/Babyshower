@@ -49,7 +49,7 @@ defmodule BabyshowerWeb.RsvpSearch do
         <h1 class="rsvp-header">
           Find Your RSVP
         </h1>
-        <p class="cartoon-text text-l text-gray-800"> Enter your <span class="name-harshil italic text-lg"> phone number </span> to access your invitation</p>
+        <p class="cartoon-text text-l text-gray-800"> Enter your <span class="text-[#197a0c] italic text-lg"> phone number </span> to access your invitation</p>
       </div>
     """
   end
@@ -67,7 +67,7 @@ defmodule BabyshowerWeb.RsvpSearch do
 
           <:actions>
             <.button type="submit" phx-disable-with="Searching..."
-              class="w-full rounded-xl bg-gradient-to-b from-[#1E90FF] to-[#1E90FF] text-white py-3 text-base font-extrabold hover:from-[#FF69B4] hover:to-[#FF69B4] transition-all duration-300 border-2 border-white shadow-md [text-shadow:none]"
+              class="w-full rounded-xl bg-[#19034e] hover:bg-[#3b8f3b] text-[#19034e] py-3 text-base font-extrabold transition-all duration-300 border-2 border-white shadow-md [text-shadow:none]"
             >
               Search RSVP
             </.button>

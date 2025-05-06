@@ -1,26 +1,4 @@
 <div class="sky-background">
-  <div class="cloud tiny" style="top: 3%; animation-duration: 15s; animation-delay: 1s;"></div>
-  <div class="cloud large" style="top: 18%; animation-duration: 30s; animation-delay: 0s;"></div>
-  <div class="cloud small" style="top: 15%; animation-duration: 22s; animation-delay: 4s;"></div>
-  <div class="cloud" style="top: 12%; animation-duration: 25s; animation-delay: 2s;"></div>
-  <div class="cloud tiny" style="top: 25%; animation-duration: 18s; animation-delay: 6s;"></div>
-  <div class="cloud large" style="top: 20%; animation-duration: 28s; animation-delay: 3s;"></div>
-  <div class="cloud small" style="top: 32%; animation-duration: 20s; animation-delay: 5s;"></div>
-  <div class="cloud" style="top: 28%; animation-duration: 24s; animation-delay: 7s;"></div>
-  <div class="cloud tiny" style="top: 22%; animation-duration: 16s; animation-delay: 8s;"></div>
-  <div class="cloud large" style="top: 35%; animation-duration: 32s; animation-delay: 2s;"></div>
-  <div class="cloud small" style="top: 40%; animation-duration: 19s; animation-delay: 4s;"></div>
-  <div class="cloud" style="top: 45%; animation-duration: 26s; animation-delay: 6s;"></div>
-  <div class="cloud small" style="top: 5%; animation-duration: 20s; animation-delay: 0s;"></div>
-  <div class="cloud" style="top: 16%; animation-duration: 26s; animation-delay: 5s;"></div>
-  <div class="cloud small" style="top: 20%; animation-duration: 22s; animation-delay: 9s;"></div>
-  <div class="cloud" style="top: 12%; animation-duration: 28s; animation-delay: 12s;"></div>
-  <div class="cloud small" style="top: 30%; animation-duration: 18s; animation-delay: 2s;"></div>
-  <div class="cloud" style="top: 18%; animation-duration: 23s; animation-delay: 4s;"></div>
-  <div class="cloud small" style="top: 35%; animation-duration: 19s; animation-delay: 8s;"></div>
-  <div class="cloud" style="top: 28%; animation-duration: 26s; animation-delay: 5s;"></div>
-  <div class="cloud small" style="top: 22%; animation-duration: 21s; animation-delay: 11s;"></div>
-
   <main class="px-4 py-8 sm:px-6 lg:px-8">
     <div class="mx-auto max-w-3xl">
       <.flash_group flash={@flash} />
@@ -31,7 +9,7 @@
           </h1>
           <div class="cartoon-card md:border-8 overflow-hidden">
             <%!-- <img class="w-full h-[400px] object-cover rounded-[2rem] border-8 border-white" src={~p"/images/image4.png"}/> --%>
-            <img class="w-full h-full object-cover rounded-[2rem] border-8 border-white" src={~p"/images/druthi.jpg"}/>
+            <img class="w-full h-full object-cover rounded-[2rem] border-white" src={~p"/images/druthi.jpg"}/>
           </div>
         </div>
 
@@ -43,22 +21,22 @@
         
         </div>
 
-        <div class="cartoon-info-card flex flex-col items-center justify-center gap-2 p-2">
+        <div class="cartoon-card flex flex-col items-center justify-center gap-2 p-2">
           <h2 class="cartoon-text text-3xl text-center mb-1 relative">
-            <span class="rsvp-header">
+            <span class="rsvp-header name-harshil">
               Event Info
             </span>
           </h2>
           <div class="flex flex-col md:flex-row md:gap-4"> 
             <div class="cartoon-detail2 flex items-center gap-2">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 100 100">
-                <circle cx="50" cy="50" r="46" fill="#FFF0F5"/>
-                <path d="M25 20h50v50H25z" fill="none" stroke="#FF69B4" stroke-width="4"/>
-                <path d="M25 35h50M35 15v10M65 15v10" fill="none" stroke="#FF69B4" stroke-width="4"/>
-                <text x="50" y="58" font-family="Arial" font-size="32" fill="#FF69B4" text-anchor="middle" dominant-baseline="middle">16</text>
+                <circle cx="50" cy="50" r="46" fill="#F9C8CA"/>
+                <path d="M25 20h50v50H25z" fill="none" stroke="#0B0500" stroke-width="4"/>
+                <path d="M25 35h50M35 15v10M65 15v10" fill="none" stroke="#0B0500" stroke-width="4"/>
+                <text x="50" y="58" font-family="Arial" font-size="32" fill="#0B0500" text-anchor="middle" dominant-baseline="middle">7</text>
               </svg>
               <div class="flex font-semibold">
-                  <p class="text-[#ee57d2]/90"> <%= "#{@event_info.date} -  #{@event_info.time}" %> </p>
+                  <p class="text-[#197a0c]/90"> <%= "#{@event_info.date} -  #{@event_info.time}" %> </p>
               </div>
             </div>
           </div>
@@ -66,22 +44,22 @@
                   href="https://maps.apple.com/place?q=Luxe%20Event%20Venue&ll=35.3380678%2C-80.7388351&auid=14071248966051689003&lsp=9902&address=10213%20John%20Adams%20Rd%2C%20Charlotte%2C%20NC%20%2028262%2C%20United%20States">
             <div class="cartoon-detail2 flex items-center gap-4">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 100 100">
-                <circle cx="50" cy="50" r="46" fill="#FFF0F5"/>
+                <circle cx="50" cy="50" r="46" fill="#F9C8CA"/>
                 <path d="M50 15c-12 0-22 10-22 22 0 16 22 40 22 40s22-24 22-40c0-12-10-22-22-22zm0 30c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8z" 
-                      fill="#FF69B4"/>
+                      fill="#0B0500"/>
               </svg>
                 <div class="flex flex-col">
                     <p class="text-2xl"> <%= @event_info.venue_title %> </p>
-                      <p class="text-[#3babd7]/80 underline text-base"> <%= "#{@event_info.location}, #{@event_info.city} #{@event_info.state}, #{@event_info.zip}" %> </p>
+                      <p class="text-[#197a0c]/90 underline text-base"> <%= "#{@event_info.location}, #{@event_info.city} #{@event_info.state}, #{@event_info.zip}" %> </p>
                 </div>
               
             </div>
           </div>
             <div class="cartoon-detail2 flex gap-2">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#FF69B4]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#FF69B4]" fill="none" viewBox="0 0 24 24" stroke="#0B0500">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
               </svg>
-              <span class="text-sm font-medium text-stone-900">
+              <span class="text-sm font-medium text-[#19034e]">
                 No Boxed Gifts Please
               </span>
             </div>
