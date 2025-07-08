@@ -1,9 +1,9 @@
-# fly.toml app configuration file generated for he-babyshower on 2025-01-08T20:24:50-05:00
+# fly.toml app configuration file generated for druti-sweet-16 on 2025-03-18T20:25:21-04:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'he-babyshower'
+app = 'druti-sweet-16'
 primary_region = 'iad'
 kill_signal = 'SIGTERM'
 
@@ -11,7 +11,7 @@ kill_signal = 'SIGTERM'
 
 [env]
   DATABASE_PATH = '/mnt/name/name.db'
-  PHX_HOST = 'harshileshangi.com'
+  PHX_HOST = 'druti-sweet-16.fly.dev'
   PORT = '8080'
 
 [[mounts]]
@@ -32,5 +32,6 @@ kill_signal = 'SIGTERM'
     soft_limit = 1000
 
 [[vm]]
-  size = 'shared-cpu-1x'
   memory = '512mb'
+  cpu_kind = 'shared'
+  cpus = 1
