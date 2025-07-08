@@ -1,9 +1,9 @@
-# fly.toml app configuration file generated for druti-sweet-16 on 2025-03-18T20:25:21-04:00
+# fly.toml app configuration file generated for dhruti-sweet-16 on 2025-07-08T19:33:46-04:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'druti-sweet-16'
+app = 'dhruti-sweet-16'
 primary_region = 'iad'
 kill_signal = 'SIGTERM'
 
@@ -11,12 +11,15 @@ kill_signal = 'SIGTERM'
 
 [env]
   DATABASE_PATH = '/mnt/name/name.db'
-  PHX_HOST = 'druti-sweet-16.fly.dev'
+  PHX_HOST = 'dhruti-sweet-16.fly.dev'
   PORT = '8080'
 
 [[mounts]]
   source = 'name'
   destination = '/mnt/name'
+  auto_extend_size_threshold = 80
+  auto_extend_size_increment = '1GB'
+  auto_extend_size_limit = '10GB'
 
 [http_service]
   internal_port = 8080
@@ -32,6 +35,7 @@ kill_signal = 'SIGTERM'
     soft_limit = 1000
 
 [[vm]]
+  size = 'shared-cpu-1x'
   memory = '512mb'
   cpu_kind = 'shared'
   cpus = 1
